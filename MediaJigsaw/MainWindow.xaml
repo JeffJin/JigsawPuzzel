@@ -1,0 +1,104 @@
+﻿<Window x:Class="MediaJigsaw.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Media Jigsaw" Height="850" Width="940" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <UIElement.RenderTransform>
+            <ScaleTransform ScaleTransform.ScaleX="1.0" ScaleTransform.ScaleY="1.0" />
+        </UIElement.RenderTransform>
+        <StackPanel Name="cmdPanel" Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Stretch" Panel.Background="#00FFFFFF">
+            <Button Name="btnNewPuzzle" Width="100" HorizontalAlignment="Center" Margin="10" ButtonBase.Command="{Binding Commands.NewPuzzelCommand}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="24" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" />
+                    <TextBlock Grid.Row="1" TextBlock.FontSize="12" TextBlock.Text="New Puzzle" />
+                </Grid>
+            </Button>
+            <Button Name="btnShowImage" Width="100" HorizontalAlignment="Center" Margin="10" ButtonBase.Command="{Binding Commands.ShowPictureCommand}" UIElement.IsEnabled="{Binding EnableShowImageButton,Mode=TwoWay}" UIElement.Visibility="{Binding ShowPictureButton,Mode=TwoWay}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition RowDefinition.Height="60" />
+                        <RowDefinition RowDefinition.Height="24" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" />
+                    <TextBlock Name="txtShowImage" Grid.Row="1" TextBlock.FontSize="12" TextBlock.Text="Show Image" />
+                </Grid>
+            </Button>
+            <Button Name="btnShowPuzzle" Width="100" HorizontalAlignment="Center" Margin="10" ButtonBase.Command="{Binding Commands.ShowPuzzelCommand}" UIElement.Visibility="{Binding ShowPuzzelButton,Mode=TwoWay}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition RowDefinition.Height="60" />
+                        <RowDefinition RowDefinition.Height="24" />
+                    </Grid.RowDefinitions>
+                    <Image Name="btnShowPuzzleImage" Grid.Row="0" />
+                    <TextBlock Name="txtShowPuzzle" Grid.Row="1" TextBlock.FontSize="12" TextBlock.Text="Show Puzzle" />
+                </Grid>
+            </Button>
+            <Button Name="btnReplayPuzzle" Width="100" HorizontalAlignment="Center" Margin="10" ButtonBase.Command="{Binding Commands.ReplayPuzzelCommand}" UIElement.IsEnabled="{Binding EnableReplayPuzzelButton,Mode=TwoWay}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition RowDefinition.Height="60" />
+                        <RowDefinition RowDefinition.Height="24" />
+                    </Grid.RowDefinitions>
+                    <Image Name="btnReplayPuzzleImage" Grid.Row="0" />
+                    <TextBlock Name="txtReplayPuzzle" Grid.Row="1" TextBlock.FontSize="12" TextBlock.Text="Replay Puzzle" />
+                </Grid>
+            </Button>
+            <Grid Width="100" HorizontalAlignment="Center" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition RowDefinition.Height="60" />
+                    <RowDefinition RowDefinition.Height="24" />
+                </Grid.RowDefinitions>
+                <TextBlock Margin="12, 2, 2, 2" TextBlock.FontSize="12" TextBlock.Text="Piece Size" />
+                <ComboBox Height="25" Width="80" Margin="10,17,10,3" Selector.SelectedValuePath="Key" ItemsControl.DisplayMemberPath="Value" ItemsControl.ItemsSource="{Binding AvailableSizes}" Selector.SelectedValue="{Binding PieceSize,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+            <TextBlock Name="info" TextBlock.FontSize="12" TextBlock.Text="{Binding Info,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Bottom" UIElement.Visibility="{Binding ShowPuzzelCanvas}">
+                <Canvas Name="puzzlePanel" Width="800" Height="800" Margin="5">
+                    <Panel.Background>
+                        <DrawingBrush TileBrush.Viewport="0,0,0.1,0.1" TileBrush.TileMode="Tile" Brush.Opacity="1.0">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing GeometryDrawing.Brush="#FFFFFFE0">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RectangleGeometry.Rect="0,0,100,100" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                    <GeometryDrawing>
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry RectangleGeometry.Rect="0,0,50,50" />
+                                                <RectangleGeometry RectangleGeometry.Rect="50,50,50,50" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                        <GeometryDrawing.Brush>
+                                            <LinearGradientBrush>
+                                                <GradientStop GradientStop.Offset="0.0" GradientStop.Color="Gray" />
+                                                <GradientStop GradientStop.Offset="1.0" GradientStop.Color="Beige" />
+                                            </LinearGradientBrush>
+                                        </GeometryDrawing.Brush>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Panel.Background>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Bottom" UIElement.Visibility="{Binding ShowImageSource}">
+                <Image Name="imgShowImage" Width="800" Height="800" HorizontalAlignment="Left" VerticalAlignment="Top" Image.Stretch="None" Margin="5" Image.Source="{Binding ImageSource}" />
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</Window>
