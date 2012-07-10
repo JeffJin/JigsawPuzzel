@@ -359,7 +359,8 @@ namespace MediaJigsaw.Models
         {
             this.InitProperties();
             //clean up previous game
-            this.DestroyImageReferences();
+            this.Window.Canvas.Children.Clear();
+            this.Pieces.Clear();
             this.CreatePuzzle(this.SourceFileName);
         }
 
