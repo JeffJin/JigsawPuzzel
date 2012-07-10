@@ -8,5 +8,6 @@ namespace MediaJigsaw.Models
 {
     public interface IJigsawPiece : INotifyPropertyChanged
     {
+        void Clear();
     }
 }

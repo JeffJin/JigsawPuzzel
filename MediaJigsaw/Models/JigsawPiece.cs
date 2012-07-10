@@ -24,6 +24,20 @@ namespace MediaJigsaw.Models
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //clean up previous setup for this image piece
+        public void Clear()
+        {
+            this.ImageSource = null;
+            base.Fill = null;
+            this.Data = null;
+
+            this.OriginColumn = -1;
+            this.OriginRow = -1;
+            this.CurrentColumn = -1;
+            this.CurrentRow = -1;
+            this.PieceSize = 0;
+        }
+
         // Methods
         protected JigsawPiece(BitmapImage imageSource, int col, int row, double pieceSize)
         {
