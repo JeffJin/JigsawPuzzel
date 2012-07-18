@@ -121,7 +121,8 @@ namespace MediaJigsaw.Models
             {
                 for (int col = 0; col < this._columns; col++)
                 {
-                    JigsawRectPiece piece = new JigsawRectPiece(this.ImageSource, col, row, this.PieceSize);
+                    //JigsawPiece piece = new JigsawRectPiece(this.ImageSource, col, row, this.PieceSize);
+                    JigsawPiece piece = new JigsawBezyPiece(this.ImageSource, col, row, this.PieceSize);
                     pieces.Add(piece);
                 }
             }
@@ -248,7 +249,7 @@ namespace MediaJigsaw.Models
             return ret;
         }
 
-        private void MovePiece(JigsawPiece piece, Point fromPoint, Point toPoint)
+        private void MovePiece(JigsawPiece piece, Point toPoint)
         {
             Canvas.SetLeft(piece, toPoint.X);
             Canvas.SetTop(piece, toPoint.Y);
@@ -262,11 +263,11 @@ namespace MediaJigsaw.Models
                                                      target.CurrentRow*this.PieceSize);
                 Point toPointForTarget = new Point(original.CurrentColumn*this.PieceSize,
                                                    original.CurrentRow*this.PieceSize);
-                Point fromPointForOriginal =
-                    original.TransformToAncestor(this.Window.Canvas).Transform(new Point(0.0, 0.0));
+//                Point fromPointForOriginal =
+//                    original.TransformToAncestor(this.Window.Canvas).Transform(new Point(0.0, 0.0));
                 Point toPointForOriginal = fromPointForTarget;
-                this.MovePiece(target, fromPointForTarget, toPointForTarget);
-                this.MovePiece(original, fromPointForOriginal, toPointForOriginal);
+                this.MovePiece(target, toPointForTarget);
+                this.MovePiece(original, toPointForOriginal);
                 int targetX = target.CurrentColumn;
                 int targetY = target.CurrentRow;
                 target.CurrentColumn = original.CurrentColumn;

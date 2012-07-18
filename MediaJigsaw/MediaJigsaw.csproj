@@ -71,6 +71,7 @@
       <DependentUpon>BezySegment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CanvasAssistant.cs" />
+    <Compile Include="Helpers\BezierCurveHelper.cs" />
     <Compile Include="Helpers\JigsawHelper.cs" />
     <Compile Include="Helpers\JigsawPieceAnimation.cs" />
     <Compile Include="Infrastructure\CommandMap.cs" />
@@ -83,6 +84,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\BezierCurveModel.cs" />
     <Compile Include="Models\ConnectionType.cs" />
     <Compile Include="Models\IJigsawPiece.cs" />
     <Compile Include="Models\JigsawBezyPiece.cs" />
