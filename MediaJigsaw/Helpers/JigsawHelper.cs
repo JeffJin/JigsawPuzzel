@@ -8,7 +8,7 @@ namespace MediaJigsaw.Helpers
 {
     public class JigsawHelper
     {
-        public static IList<JigsawPiece> ScramblePieces(List<JigsawPiece> pieces, int rows, int cols)
+        public static IList<IJigsawPiece> ScramblePieces(List<IJigsawPiece> pieces, int rows, int cols)
         {
             var random = new Random();
             var temp = new List<KeyValuePair<int, int>>();

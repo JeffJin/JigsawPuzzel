@@ -10,7 +10,11 @@ namespace MediaJigsaw.Models
 {
     public class JigsawPolygonPiece : JigsawPiece
     {
-        // Methods
+        public JigsawPolygonPiece()
+        {
+            
+        }
+
         public JigsawPolygonPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {

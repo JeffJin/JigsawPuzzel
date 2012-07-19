@@ -74,6 +74,7 @@
     <Compile Include="Helpers\BezierCurveHelper.cs" />
     <Compile Include="Helpers\JigsawHelper.cs" />
     <Compile Include="Helpers\JigsawPieceAnimation.cs" />
+    <Compile Include="Helpers\JigsawPieceFactory.cs" />
     <Compile Include="Infrastructure\CommandMap.cs" />
     <Compile Include="Infrastructure\PropertyChangedImplementation.cs" />
     <Compile Include="Helpers\RoutedEventHelper.cs" />

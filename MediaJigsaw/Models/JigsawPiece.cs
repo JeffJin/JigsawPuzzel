@@ -24,6 +24,11 @@ namespace MediaJigsaw.Models
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected JigsawPiece()
+        {
+            
+        }
+
         //clean up previous setup for this image piece
         public void Clear()
         {

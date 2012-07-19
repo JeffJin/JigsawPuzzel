@@ -28,11 +28,11 @@ namespace MediaJigsaw.Models
         private bool _isDragging;
         private double _leftLimit;
         private double _lowerLimit;
-        private IList<JigsawPiece> _pieces;
+        private IList<IJigsawPiece> _pieces;
         private double _pieceSize;
         private double _rightLimit;
         private int _rows;
-        private IList<JigsawPiece> _shadowPieces;
+        private IList<IJigsawPiece> _shadowPieces;
         private Visibility _showImageSource;
         private Visibility _showPictureButton;
         private Visibility _showPuzzelButton;
@@ -101,11 +101,11 @@ namespace MediaJigsaw.Models
             this.ImageSource = null;
         }
 
-        public IList<JigsawPiece> CreatePuzzle(Stream streamSource)
+        public IList<IJigsawPiece> CreatePuzzle(Stream streamSource)
         {
-            using (WrappingStream wrapper = new WrappingStream(streamSource))
+            using (var wrapper = new WrappingStream(streamSource))
             {
-                using (BinaryReader reader = new BinaryReader(wrapper))
+                using (var reader = new BinaryReader(wrapper))
                 {
                     BitmapImage imageSource = new BitmapImage();
                     imageSource.BeginInit();
@@ -116,13 +116,12 @@ namespace MediaJigsaw.Models
                     this.ImageSource = imageSource;
                 }
             }
-            List<JigsawPiece> pieces = new List<JigsawPiece>();
+            var pieces = new List<IJigsawPiece>();
             for (int row = 0; row < this._rows; row++)
             {
                 for (int col = 0; col < this._columns; col++)
                 {
-                    //JigsawPiece piece = new JigsawRectPiece(this.ImageSource, col, row, this.PieceSize);
-                    JigsawPiece piece = new JigsawBezyPiece(this.ImageSource, col, row, this.PieceSize);
+                    IJigsawPiece piece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(piece);
                 }
             }
@@ -134,7 +133,7 @@ namespace MediaJigsaw.Models
             return this.Pieces;
         }
 
-        private IList<JigsawPiece> CreatePuzzle(string streamFileName)
+        private IList<IJigsawPiece> CreatePuzzle(string streamFileName)
         {
             using (Stream streamSource = this.LoadImage(streamFileName))
             {
@@ -145,18 +144,18 @@ namespace MediaJigsaw.Models
             return this.Pieces;
         }
 
-        private JigsawPiece FindPieceByMousePosition(Point point)
+        private IJigsawPiece FindPieceByMousePosition(Point point)
         {
             int targetRow = (int) (point.Y/this.PieceSize);
             int targetCol = (int) (point.X/this.PieceSize);
             return
-                this.Pieces.SingleOrDefault<JigsawPiece>(
+                this.Pieces.SingleOrDefault<IJigsawPiece>(
                     p => ((p.CurrentColumn == targetCol) && (p.CurrentRow == targetRow)));
         }
 
-        private JigsawPiece FindPieceByView(JigsawPiece piece)
+        private IJigsawPiece FindPieceByView(IJigsawPiece piece)
         {
-            return this.Pieces.SingleOrDefault<JigsawPiece>(p => (p == piece));
+            return this.Pieces.SingleOrDefault<IJigsawPiece>(p => (p == piece));
         }
 
         private void InitCommands()
@@ -175,8 +174,8 @@ namespace MediaJigsaw.Models
             this.ShowPictureButton = Visibility.Visible;
             this.ShowImageSource = Visibility.Collapsed;
             this.ShowPuzzelCanvas = Visibility.Visible;
-            this._pieces = new List<JigsawPiece>();
-            Dictionary<double, string> availableSizes = new Dictionary<double, string>
+            this._pieces = new List<IJigsawPiece>();
+            var availableSizes = new Dictionary<double, string>
                                                             {
                                                                 {50.0, "50px"},
                                                                 {100.0, "100px"},
@@ -249,13 +248,21 @@ namespace MediaJigsaw.Models
             return ret;
         }
 
-        private void MovePiece(JigsawPiece piece, Point toPoint)
+        private void MovePiece(IJigsawPiece piece, Point toPoint)
         {
-            Canvas.SetLeft(piece, toPoint.X);
-            Canvas.SetTop(piece, toPoint.Y);
+            var uiElement = piece as UIElement;
+            if (uiElement != null)
+            {
+                Canvas.SetLeft(uiElement, toPoint.X);
+                Canvas.SetTop(uiElement, toPoint.Y);
+            }
+            else
+            {
+                //log or throw exception
+            }
         }
 
-        private void MovePieces(JigsawPiece original, JigsawPiece target)
+        private void MovePieces(IJigsawPiece original, IJigsawPiece target)
         {
             if ((original != null) && (target != null))
             {
@@ -347,11 +354,11 @@ namespace MediaJigsaw.Models
             if (this._isDragging)
             {
                 this._isDragging = false;
-                JigsawPiece pieceView = (JigsawPiece) sender;
+                JigsawPiece pieceView = (JigsawPiece)sender;
                 pieceView.ReleaseMouseCapture();
                 pieceView.SetValue(Panel.ZIndexProperty, 10);
-                JigsawPiece originalModel = this.FindPieceByView(pieceView);
-                JigsawPiece targetModel = this.FindPieceByMousePosition(e.GetPosition(this.Window.Canvas));
+                IJigsawPiece originalModel = this.FindPieceByView(pieceView);
+                IJigsawPiece targetModel = this.FindPieceByMousePosition(e.GetPosition(this.Window.Canvas));
                 this.MovePieces(originalModel, targetModel);
             }
         }
@@ -439,7 +446,7 @@ namespace MediaJigsaw.Models
             }
         }
 
-        public IList<JigsawPiece> Pieces
+        public IList<IJigsawPiece> Pieces
         {
             get { return this._pieces; }
             set
@@ -457,11 +464,6 @@ namespace MediaJigsaw.Models
                 this._pieceSize = value;
                 base.FirePropertyChanged("PieceSize");
             }
-        }
-
-        public IList<JigsawPiece> ShadowPieces
-        {
-            get { return this._shadowPieces; }
         }
 
         public Visibility ShowImageSource

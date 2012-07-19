@@ -11,6 +11,11 @@ namespace MediaJigsaw.Models
 {
     public class JigsawBezyPiece : JigsawPiece
     {
+        public JigsawBezyPiece()
+        {
+            
+        }
+
         public JigsawBezyPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
