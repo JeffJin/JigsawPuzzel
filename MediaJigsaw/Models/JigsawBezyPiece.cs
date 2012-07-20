@@ -30,7 +30,7 @@ namespace MediaJigsaw.Models
 
         private PathGeometry CreatePolyBezierPath()
         {
-            var pathFigure = BezierCurveHelper.Create(base.CurrentColumn, base.CurrentRow);
+            var pathFigure = BezierCurveHelper.Create(base.CurrentRow, base.CurrentColumn);
             return new PathGeometry {Figures = {pathFigure}};
         }
 

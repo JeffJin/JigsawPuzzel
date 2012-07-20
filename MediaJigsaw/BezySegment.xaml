@@ -27,9 +27,10 @@
                                     </PathFigure.Segments>
                                 </PathFigure>
                                 <!-- 0, 1 -->
-                                <PathFigure StartPoint="80,260">
+                                <PathFigure StartPoint="0,200">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
+                                            <PolyBezierSegment Points="40,200 60,240 80,260" />
                                             <PolyBezierSegment Points="80,320 220,360 140,420" />
                                             <PolyBezierSegment Points="40,420 100,500 0,400" />
                                             <LineSegment Point="0,200" />
@@ -37,9 +38,10 @@
                                     </PathFigure.Segments>
                                 </PathFigure>
                                 <!-- 0, 2 -->
-                                <PathFigure StartPoint="140,420">
+                                <PathFigure StartPoint="0,400">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
+                                            <PolyBezierSegment Points="100,500 40,420 140,420" />
                                             <PolyBezierSegment Points="220,430 120,500 210,550" />
                                             <PolyBezierSegment Points="160,550 100,600 0,600" />
                                             <LineSegment Point="0,400" />
@@ -47,9 +49,10 @@
                                     </PathFigure.Segments>
                                 </PathFigure>
                                 <!-- 0, 3 -->
-                                <PathFigure StartPoint="210,550">
+                                <PathFigure StartPoint="0,600">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
+                                            <PolyBezierSegment Points="100,600 160,550 210,550" />
                                             <PolyBezierSegment Points="50,700 140,650 200,800" />
                                             <LineSegment Point="0,800" />
                                             <LineSegment Point="0,600" />
@@ -57,28 +60,23 @@
                                     </PathFigure.Segments>
                                 </PathFigure>
                                 <!--1,0-->
-                                <PathFigure StartPoint="180,160">
+                                <PathFigure StartPoint="200,0">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
+                                            <PolyBezierSegment Points="200,45 0,100 180,160" />
                                             <PolyBezierSegment Points="240,120 300,180 320,200" />
-                                        </PathSegmentCollection>
-                                    </PathFigure.Segments>
-                                </PathFigure>
-                                <PathFigure StartPoint="320,200">
-                                    <PathFigure.Segments>
-                                        <PathSegmentCollection>
                                             <PolyBezierSegment Points="330,180 480,160 400,0" />
                                             <LineSegment Point="200,0" />
                                         </PathSegmentCollection>
                                     </PathFigure.Segments>
                                 </PathFigure>
-                                <PathFigure StartPoint="320,200">
-                                    <PathFigure.Segments>
-                                        <PathSegmentCollection>
-                                            <PolyBezierSegment Points="310,240 340,280 380,270" />
-                                        </PathSegmentCollection>
-                                    </PathFigure.Segments>
-                                </PathFigure>
+<!--                                <PathFigure StartPoint="320,200">-->
+<!--                                    <PathFigure.Segments>-->
+<!--                                        <PathSegmentCollection>-->
+<!--                                            <PolyBezierSegment Points="310,240 340,280 380,270" />-->
+<!--                                        </PathSegmentCollection>-->
+<!--                                    </PathFigure.Segments>-->
+<!--                                </PathFigure>-->
                             </PathFigureCollection>
                         </PathGeometry.Figures>
                     </PathGeometry>

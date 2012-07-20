@@ -117,15 +117,20 @@ namespace MediaJigsaw.Models
                 }
             }
             var pieces = new List<IJigsawPiece>();
-            for (int row = 0; row < this._rows; row++)
-            {
-                for (int col = 0; col < this._columns; col++)
-                {
-                    IJigsawPiece piece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, PieceType.PolyBezier);
-                    pieces.Add(piece);
-                }
-            }
-            this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
+//            for (int row = 0; row < this._rows; row++)
+//            {
+//                for (int col = 0; col < this._columns; col++)
+//                {
+                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 0, this.PieceSize, PieceType.PolyBezier);
+                    pieces.Add(jigsawPiece);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 1, this.PieceSize, PieceType.PolyBezier);
+                    pieces.Add(jigsawPiece);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 2, this.PieceSize, PieceType.PolyBezier);
+                    pieces.Add(jigsawPiece);
+//                }
+//            }
+            this.Pieces = pieces;
+            //this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
             foreach (JigsawPiece piece in this.Pieces)
             {
                 this.InsertPiece(this.Window.Canvas, piece);
