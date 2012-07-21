@@ -70,8 +70,8 @@ namespace MediaJigsaw.Models
     {
         base.Stroke = new SolidColorBrush(Colors.DarkOliveGreen);
         base.StrokeThickness = 1.0;
-        base.Width = this.PieceSize;
-        base.Height = this.PieceSize;
+        base.Width = this.PieceSize *3;
+        base.Height = this.PieceSize * 3;
         ImageBrush imageBrush = new ImageBrush {
             ImageSource = this.ImageSource,
             Stretch = Stretch.None,

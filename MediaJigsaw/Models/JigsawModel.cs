@@ -43,7 +43,6 @@ namespace MediaJigsaw.Models
         public readonly int SupportedImageHeight = 800;
         public readonly int SupportedImageWidth = 800;
 
-        // Methods
         public JigsawModel()
         {
             this.InitCommands();
@@ -75,6 +74,9 @@ namespace MediaJigsaw.Models
             return model;
         }
 
+        /// <summary>
+        /// Destroy image file reference to prevent memory leaking
+        /// </summary>
         private void DestroyImageReferences()
         {
             for (var i = this.Window.Canvas.Children.Count - 1; i >= 0; i--)
@@ -123,7 +125,7 @@ namespace MediaJigsaw.Models
 //                {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 0, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 1, this.PieceSize, PieceType.PolyBezier);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 1, 0, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
                     jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 2, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
@@ -253,6 +255,8 @@ namespace MediaJigsaw.Models
             return ret;
         }
 
+#region Mouse event handler 
+
         private void MovePiece(IJigsawPiece piece, Point toPoint)
         {
             var uiElement = piece as UIElement;
@@ -290,31 +294,6 @@ namespace MediaJigsaw.Models
                 {
                     MessageBox.Show("You have successfully finished this puzzel", "Congratulations!");
                     this.ShowPicture();
-                }
-            }
-        }
-
-        private void NewPuzzel()
-        {
-            this.ShowPuzzel();
-            var ofd = new OpenFileDialog
-                          {
-                              Filter =
-                                  "All Image Files ( JPEG,GIF,BMP,PNG)|*.jpg;*.jpeg;*.gif;*.bmp;*.png|JPEG Files ( *.jpg;*.jpeg )|*.jpg;*.jpeg|GIF Files ( *.gif )|*.gif|BMP Files ( *.bmp )|*.bmp|PNG Files ( *.png )|*.png",
-                              Title = "Select an image file for generating the puzzle"
-                          };
-            if (ofd.ShowDialog().Value)
-            {
-                try
-                {
-                    //clean up previous game
-                    DestroyImageReferences();
-                    this.SourceFileName = ofd.FileName;
-                    this.Pieces = this.CreatePuzzle(this.SourceFileName);
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.ToString());
                 }
             }
         }
@@ -368,6 +347,35 @@ namespace MediaJigsaw.Models
             }
         }
 
+#endregion
+
+#region Commands implementation
+
+        private void NewPuzzel()
+        {
+            this.ShowPuzzel();
+            var ofd = new OpenFileDialog
+                          {
+                              Filter =
+                                  "All Image Files ( JPEG,GIF,BMP,PNG)|*.jpg;*.jpeg;*.gif;*.bmp;*.png|JPEG Files ( *.jpg;*.jpeg )|*.jpg;*.jpeg|GIF Files ( *.gif )|*.gif|BMP Files ( *.bmp )|*.bmp|PNG Files ( *.png )|*.png",
+                              Title = "Select an image file for generating the puzzle"
+                          };
+            if (ofd.ShowDialog().Value)
+            {
+                try
+                {
+                    //clean up previous game
+                    DestroyImageReferences();
+                    this.SourceFileName = ofd.FileName;
+                    this.Pieces = this.CreatePuzzle(this.SourceFileName);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.ToString());
+                }
+            }
+        }
+
         private void ReplayPuzzel()
         {
             this.InitProperties();
@@ -395,7 +403,10 @@ namespace MediaJigsaw.Models
             this.ShowPuzzelCanvas = Visibility.Visible;
         }
 
-        // Properties
+#endregion 
+
+#region Properties to bind to UI
+
         public Dictionary<double, string> AvailableSizes
         {
             get { return this._availableSizes; }
@@ -517,6 +528,10 @@ namespace MediaJigsaw.Models
             set { this._sourceFileName = value; }
         }
 
+#endregion
+
+        //Main window reference
         public MainWindow Window { get; set; }
+
     }
 }
