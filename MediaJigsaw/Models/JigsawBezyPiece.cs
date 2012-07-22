@@ -36,12 +36,40 @@ namespace MediaJigsaw.Models
 
         protected override Rect CreateViewbox()
         {
-            return new Rect((base.CurrentColumn * base.PieceSize / 2d), (base.CurrentRow * base.PieceSize / 2d), (double)base.PieceSize * 2, (double)base.PieceSize * 2);
+            return new Rect(X, Y, ViewSize, ViewSize);
         }
 
         protected override Rect CreateViewport()
         {
-            return new Rect(0.0, 0.0, (double)base.PieceSize * 2, (double)base.PieceSize * 2);
+            return new Rect(0.0, 0.0, ViewSize, ViewSize);
+        }
+
+        public override double X
+        {
+            get
+            {
+                var x = (base.CurrentColumn*base.PieceSize - base.PieceSize/2);
+                return x > 0 ? x : 0;
+            }
+        }
+
+        public override double Y
+        {
+            get
+            {
+                var y = (base.CurrentRow*base.PieceSize - base.PieceSize/2);
+                return y > 0 ? y : 0;
+            }
+        }
+
+        private double ViewSize
+        {
+            get { 
+                double viewSize = (double) base.PieceSize*3;
+                if (viewSize > MaxImageSize)
+                    return MaxImageSize;
+                return viewSize;
+            }
         }
     }
 }

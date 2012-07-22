@@ -41,6 +41,16 @@ namespace MediaJigsaw.Models
             throw new NotImplementedException();
         }
 
+        public override double X
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override double Y
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         private static ConnectionType[] GetConnectionType(int row, int column, int pieceSize)
         {
             return new ConnectionType[] { ConnectionType.Male };

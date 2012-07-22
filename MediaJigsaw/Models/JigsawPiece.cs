@@ -13,6 +13,8 @@ namespace MediaJigsaw.Models
 {
     public abstract class JigsawPiece : Shape, IJigsawPiece
     {
+        protected static readonly double MaxImageSize = 800.0;
+
         // Fields
         private int _currentColumn;
         private int _currentRow;
@@ -67,23 +69,24 @@ namespace MediaJigsaw.Models
         }
 
         private void InitShapeProperties()
-    {
-        base.Stroke = new SolidColorBrush(Colors.DarkOliveGreen);
-        base.StrokeThickness = 1.0;
-        base.Width = this.PieceSize *3;
-        base.Height = this.PieceSize * 3;
-        ImageBrush imageBrush = new ImageBrush {
-            ImageSource = this.ImageSource,
-            Stretch = Stretch.None,
-            Viewport = this.CreateViewport(),
-            ViewboxUnits = BrushMappingMode.Absolute,
-            Viewbox = this.CreateViewbox(),
-            ViewportUnits = BrushMappingMode.Absolute
-        };
-        base.Fill = imageBrush;
-        this.Data = this.CreateGeometry();
-        base.SetValue(Panel.ZIndexProperty, 10);
-    }
+        {
+            base.Stroke = new SolidColorBrush(Colors.DarkOliveGreen);
+            base.StrokeThickness = 1.0;
+            base.Width = this.PieceSize*3;
+            base.Height = this.PieceSize*3;
+            var imageBrush = new ImageBrush
+                                        {
+                                            ImageSource = this.ImageSource,
+                                            Stretch = Stretch.None,
+                                            Viewport = this.CreateViewport(),
+                                            ViewboxUnits = BrushMappingMode.Absolute,
+                                            Viewbox = this.CreateViewbox(),
+                                            ViewportUnits = BrushMappingMode.Absolute
+                                        };
+            base.Fill = imageBrush;
+            this.Data = this.CreateGeometry();
+            base.SetValue(Panel.ZIndexProperty, 10);
+        }
 
         // Properties
         public int CurrentColumn
@@ -157,5 +160,8 @@ namespace MediaJigsaw.Models
                 this._pieceSize = value;
             }
         }
+
+        public abstract double X { get;}
+        public abstract double Y { get;}
     }
 }

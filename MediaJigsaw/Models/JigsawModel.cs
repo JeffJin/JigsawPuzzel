@@ -125,9 +125,15 @@ namespace MediaJigsaw.Models
 //                {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 0, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 1, 0, this.PieceSize, PieceType.PolyBezier);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 1, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
                     jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 2, this.PieceSize, PieceType.PolyBezier);
+                    pieces.Add(jigsawPiece);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 3, this.PieceSize, PieceType.PolyBezier);
+                    pieces.Add(jigsawPiece);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 1, 0, this.PieceSize, PieceType.PolyBezier);
+                    pieces.Add(jigsawPiece);
+                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 1, 1, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
 //                }
 //            }
@@ -196,8 +202,8 @@ namespace MediaJigsaw.Models
         private void InsertPiece(Canvas canvas, JigsawPiece piece)
         {
             canvas.Children.Add(piece);
-            Canvas.SetLeft(piece, piece.CurrentColumn*this.PieceSize);
-            Canvas.SetTop(piece, piece.CurrentRow*this.PieceSize);
+            Canvas.SetLeft(piece, piece.X);
+            Canvas.SetTop(piece, piece.Y);
             piece.MouseDown += new MouseButtonEventHandler(this.Piece_MouseDown);
             piece.MouseMove += new MouseEventHandler(this.Piece_MouseMove);
             piece.MouseUp += new MouseButtonEventHandler(this.Piece_MouseUp);
