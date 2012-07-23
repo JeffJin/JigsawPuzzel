@@ -121,7 +121,7 @@ namespace MediaJigsaw.Models
             {
                 for (int col = 0; col < this._columns; col++)
                 {
-                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, PieceType.PolyBezier);
+                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
                     pieces.Add(jigsawPiece);
                 }
             }
@@ -203,16 +203,16 @@ namespace MediaJigsaw.Models
             this.SourceFileName = srcFileName;
             this._columns = (int) Math.Ceiling((double) (((double) this.SupportedImageHeight)/this.PieceSize));
             this._rows = (int) Math.Ceiling((double) (((double) this.SupportedImageHeight)/this.PieceSize));
-            BitmapImage bi = new BitmapImage(new Uri(srcFileName));
+            var bi = new BitmapImage(new Uri(srcFileName));
 
-            ImageBrush imgBrush = new ImageBrush(bi)
+            var imgBrush = new ImageBrush(bi)
                                       {
                                           AlignmentX = AlignmentX.Left,
                                           AlignmentY = AlignmentY.Top,
                                           Stretch = Stretch.UniformToFill
                                       };
 
-            Rectangle rectBlank = new Rectangle
+            var rectBlank = new Rectangle
                                       {
                                           Width = this._columns*this.PieceSize,
                                           Height = this._rows*this.PieceSize,
@@ -221,7 +221,7 @@ namespace MediaJigsaw.Models
                                           Fill = new SolidColorBrush(Colors.White)
                                       };
             rectBlank.Arrange(new Rect(0.0, 0.0, this._columns*this.PieceSize, this._rows*this.PieceSize));
-            Rectangle rectImage = new Rectangle
+            var rectImage = new Rectangle
                                       {
                                           Width = this.SupportedImageWidth,
                                           Height = this.SupportedImageHeight,
@@ -293,10 +293,12 @@ namespace MediaJigsaw.Models
             }
         }
 
+        private Point _mouseDownPosition;
         private void Piece_MouseDown(object sender, MouseButtonEventArgs e)
         {
             JigsawPiece pieceView = (JigsawPiece) sender;
             this._isDragging = true;
+            this._mouseDownPosition = e.GetPosition(this.Window.Canvas);
             pieceView.CaptureMouse();
             pieceView.SetValue(Panel.ZIndexProperty, 0x3e8);
         }
@@ -304,10 +306,10 @@ namespace MediaJigsaw.Models
         private void Piece_MouseMove(object sender, MouseEventArgs e)
         {
             Point canvPosToWindow = this.Window.Canvas.TransformToAncestor(this.Window).Transform(new Point(0.0, 0.0));
-            this._upperLimit = (canvPosToWindow.Y + (this.PieceSize/2.0)) - 10.0;
-            this._lowerLimit = ((canvPosToWindow.Y + this.Window.Canvas.ActualHeight) - (this.PieceSize/2.0)) + 10.0;
-            this._leftLimit = (canvPosToWindow.X + (this.PieceSize/2.0)) - 10.0;
-            this._rightLimit = ((canvPosToWindow.X + this.Window.Canvas.ActualWidth) - (this.PieceSize/2.0)) + 10.0;
+            this._upperLimit = (canvPosToWindow.Y + (this._mouseDownPosition.Y)) - 10.0;
+            this._lowerLimit = ((canvPosToWindow.Y + this.Window.Canvas.ActualHeight) - (this._mouseDownPosition.Y)) + 10.0;
+            this._leftLimit = (canvPosToWindow.X + (this._mouseDownPosition.X)) - 10.0;
+            this._rightLimit = ((canvPosToWindow.X + this.Window.Canvas.ActualWidth) - (this._mouseDownPosition.X)) + 10.0;
             double absMouseXpos = e.GetPosition(this.Window).X;
             double absMouseYpos = e.GetPosition(this.Window).Y;
             JigsawPiece pieceView = (JigsawPiece) sender;
@@ -319,12 +321,14 @@ namespace MediaJigsaw.Models
                     Mouse.SetCursor(Cursors.Hand);
                 }
             }
-            else if (((absMouseXpos > this._leftLimit) && (absMouseXpos < this._rightLimit)) &&
-                     ((absMouseYpos > this._upperLimit) && (absMouseYpos < this._lowerLimit)))
+            else if (((absMouseXpos > 0) && (absMouseXpos < this.SupportedImageWidth)) &&
+                     ((absMouseYpos > 0) && (absMouseYpos < this.SupportedImageHeight)))
             {
                 Point piecePosition = e.GetPosition(this.Window.Canvas);
-                Canvas.SetLeft(pieceView, piecePosition.X - (pieceView.Width/2.0));
-                Canvas.SetTop(pieceView, piecePosition.Y - (pieceView.Height/2.0));
+                Canvas.SetLeft(pieceView, piecePosition.X - _mouseDownPosition.X 
+                    + pieceView.CurrentColumn * pieceView.PieceSize / 2.0);
+                Canvas.SetTop(pieceView, piecePosition.Y - _mouseDownPosition.Y
+                     + pieceView.CurrentRow * pieceView.PieceSize / 2.0);
             }
         }
 
