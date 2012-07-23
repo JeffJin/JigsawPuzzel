@@ -101,6 +101,7 @@
     <Compile Include="Models\JigsawPolygonPiece.cs" />
     <Compile Include="Models\JigsawRectPiece.cs" />
     <Compile Include="Models\PieceType.cs" />
+    <Compile Include="Infrastructure\PieceTypeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

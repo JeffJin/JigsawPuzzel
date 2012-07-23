@@ -90,7 +90,7 @@ namespace MediaJigsaw.Helpers
             }
             else if (row == 1 && col == 1)
             {
-                pathFigure.StartPoint = new Point(100, 0);
+                pathFigure.StartPoint = new Point(80, 60);
                 pathFigure.Segments.Add(
                     new PolyBezierSegment(new[] { new Point(140, 20), new Point(200, 80), new Point(220, 100) }, true));
                 pathFigure.Segments.Add(
@@ -104,7 +104,7 @@ namespace MediaJigsaw.Helpers
                 pathFigure.Segments.Add(
                     new PolyBezierSegment(new[] { new Point(120, 260), new Point(0, 220), new Point(0, 160) }, true));
                 pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(80, 200), new Point(20, 100), new Point(80, 160) }, true));
+                    new PolyBezierSegment(new[] { new Point(80, 200), new Point(20, 100), new Point(80, 60) }, true));
             }
             return pathFigure;
         }

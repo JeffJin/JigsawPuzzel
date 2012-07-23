@@ -32,14 +32,12 @@ namespace MediaJigsaw.Models
         private double _pieceSize;
         private double _rightLimit;
         private int _rows;
-        private IList<IJigsawPiece> _shadowPieces;
         private Visibility _showImageSource;
         private Visibility _showPictureButton;
         private Visibility _showPuzzelButton;
         private Visibility _showPuzzelCanvas;
         private string _sourceFileName;
         private double _upperLimit;
-        private const double Speed = 1000.0;
         public readonly int SupportedImageHeight = 800;
         public readonly int SupportedImageWidth = 800;
 
@@ -109,7 +107,7 @@ namespace MediaJigsaw.Models
             {
                 using (var reader = new BinaryReader(wrapper))
                 {
-                    BitmapImage imageSource = new BitmapImage();
+                    var imageSource = new BitmapImage();
                     imageSource.BeginInit();
                     imageSource.CacheOption = BitmapCacheOption.OnLoad;
                     imageSource.StreamSource = reader.BaseStream;
@@ -119,24 +117,14 @@ namespace MediaJigsaw.Models
                 }
             }
             var pieces = new List<IJigsawPiece>();
-//            for (int row = 0; row < this._rows; row++)
-//            {
-//                for (int col = 0; col < this._columns; col++)
-//                {
-                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 0, this.PieceSize, PieceType.PolyBezier);
+            for (int row = 0; row < this._rows; row++)
+            {
+                for (int col = 0; col < this._columns; col++)
+                {
+                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, PieceType.PolyBezier);
                     pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 1, this.PieceSize, PieceType.PolyBezier);
-                    pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 2, this.PieceSize, PieceType.PolyBezier);
-                    pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 0, 3, this.PieceSize, PieceType.PolyBezier);
-                    pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 1, 0, this.PieceSize, PieceType.PolyBezier);
-                    pieces.Add(jigsawPiece);
-                    jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, 1, 1, this.PieceSize, PieceType.PolyBezier);
-                    pieces.Add(jigsawPiece);
-//                }
-//            }
+                }
+            }
             this.Pieces = pieces;
             //this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
             foreach (JigsawPiece piece in this.Pieces)
@@ -197,6 +185,7 @@ namespace MediaJigsaw.Models
                                                             };
             this.AvailableSizes = availableSizes;
             this.PieceSize = 200.0;
+            this.PieceType = PieceType.PolyBezier;
         }
 
         private void InsertPiece(Canvas canvas, JigsawPiece piece)
@@ -422,6 +411,24 @@ namespace MediaJigsaw.Models
                 base.FirePropertyChanged("AvailableSizes");
             }
         }
+        private Dictionary<string, PieceType> _availablePieceTypes;
+        public Dictionary<string, PieceType> AvailablePieceTypes
+        {
+            get
+            {
+                if(_availablePieceTypes == null)
+                {
+                    _availablePieceTypes = new Dictionary<string, PieceType>();
+                    _availablePieceTypes = new Dictionary<string, PieceType>()
+                           {
+                               {"Rectangle", PieceType.Rectangle }, 
+                               {"PolyBezier", PieceType.PolyBezier}, 
+                               {"Polygon", PieceType.Polygon}
+                           };
+                }
+                return _availablePieceTypes;
+            }
+        }
 
         public CommandMap Commands
         {
@@ -532,6 +539,17 @@ namespace MediaJigsaw.Models
         {
             get { return this._sourceFileName; }
             set { this._sourceFileName = value; }
+        }
+
+        private PieceType _pieceType;
+        public PieceType PieceType
+        {
+            get { return this._pieceType; }
+            set
+            {
+                this._pieceType = value;
+                base.FirePropertyChanged("PieceType");
+            }
         }
 
 #endregion
