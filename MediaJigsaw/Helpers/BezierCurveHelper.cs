@@ -108,5 +108,20 @@ namespace MediaJigsaw.Helpers
             }
             return pathFigure;
         }
+
+        public static PathSegmentCollection ConvertSegments(string colDef)
+        {
+            return null;
+        }
+
+        public static PolyBezierSegment ConvertCurve(string curveDef)
+        {
+            return null;
+        }
+
+        public static Point ConvertPoint(string pointDef)
+        {
+            return new Point();
+        }
     }
 }
