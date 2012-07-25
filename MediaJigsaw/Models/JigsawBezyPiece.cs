@@ -22,6 +22,7 @@ namespace MediaJigsaw.Models
 
         }
 
+
         protected override Geometry CreateGeometry()
         {
             PathGeometry geometry = CreatePolyBezierPath();

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -10,24 +12,22 @@ namespace MediaJigsaw.Helpers
 {
     public class BezierCurveHelper
     {
-        private static IEnumerable<BezierCurveModel> _bezierCurveModels =
-            new List<BezierCurveModel>(16)
-                {
-                    new BezierCurveModel(0, 0)
-                        {
-                            
-                        }
-                };
-
-
+        private static IList<BezierCurveModel> _bezierCurveModels =
+            new List<BezierCurveModel>();
+                
         static BezierCurveHelper()
         {
-            //Init();
+            Init();
         }
 
         private static void Init()
         {
+            _bezierCurveModels.Add(new BezierCurveModel(0, 0)
+                                       {
+                                           ViewBoxPoint = new Point(0, 0)
 
+                                           //Continue.....
+                                       });
         }
 
         public static PathFigure Create(int row, int col)
@@ -35,93 +35,101 @@ namespace MediaJigsaw.Helpers
             var pathFigure = new PathFigure() { Segments = new PathSegmentCollection() };
             if (row == 0 && col == 0)
             {
-                pathFigure.StartPoint = new Point(0, 0);
-                pathFigure.Segments.Add(new LineSegment(new Point(200, 0), true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] {new Point(200, 45), new Point(0, 100), new Point(180, 160)}, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] {new Point(120, 200), new Point(180, 300), new Point(100, 260)}, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] {new Point(60, 240), new Point(40, 200), new Point(0, 200)}, true));
-                pathFigure.Segments.Add(new LineSegment(new Point(0, 0), true));
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("200,0; 200,45 0,100 180,160; 120,200 180,300 100,260; 60,240 40,200 0,200; 0,0");
             }
             else if (row == 1 && col == 0)
             {
-                pathFigure.StartPoint = new Point(0, 100);
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(40, 100), new Point(60, 140), new Point(100, 160) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(100, 220), new Point(220, 260), new Point(140, 320) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(40, 320), new Point(100, 400), new Point(0, 300) }, true));
-                pathFigure.Segments.Add(new LineSegment(new Point(0, 100), true));
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("40,0 60,40 100,60;100,120 220,160 140,220;40,220 100,300 0,200;0,0");
             }
             else if (row == 2 && col == 0)
             {
-                pathFigure.StartPoint = new Point(0, 100);
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(100, 200), new Point(40, 120), new Point(140, 120) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(220, 130), new Point(120, 200), new Point(210, 340) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(160, 340), new Point(100, 300), new Point(0, 300) }, true));
-                pathFigure.Segments.Add(new LineSegment(new Point(0, 100), true));
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("100,100 40,20 140,20;220,30 120,100 210,240;160,240 100,200 0,200;0,0");
             }
             else if (row == 3 && col == 0)
             {
-                pathFigure.StartPoint = new Point(0, 100);
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(100, 100), new Point(160, 140), new Point(210, 140) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(50, 200), new Point(140, 150), new Point(200, 300) }, true));
-                pathFigure.Segments.Add(new LineSegment(new Point(0, 300), true));
-                pathFigure.Segments.Add(new LineSegment(new Point(0, 100), true));
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("100,0 160,40 210,40;50,100 140,50 200,200;0,200;0,0");
             }
             else if (row == 0 && col == 1)
             {
-                pathFigure.StartPoint = new Point(100, 0);
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(100, 45), new Point(-100, 100), new Point(80, 160) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(140, 120), new Point(200, 180), new Point(220, 200) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(230, 180), new Point(380, 160), new Point(300, 0) }, true));
-                pathFigure.Segments.Add(new LineSegment(new Point(100, 0), true));
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("0,45 -200,100 -20,160;40,120 100,180 120,200;130,180 280,160 200,0;0,0");
             }
             else if (row == 1 && col == 1)
             {
-                pathFigure.StartPoint = new Point(80, 60);
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(140, 20), new Point(200, 80), new Point(220, 100) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(210, 140), new Point(240, 180), new Point(280, 170) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(250, 250), new Point(170, 255), new Point(170, 260) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(165, 300), new Point(150, 350), new Point(120, 360) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(120, 320), new Point(80, 320), new Point(40, 320) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(120, 260), new Point(0, 220), new Point(0, 160) }, true));
-                pathFigure.Segments.Add(
-                    new PolyBezierSegment(new[] { new Point(80, 200), new Point(20, 100), new Point(80, 60) }, true));
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("60,-40 120,20 140,40;130,80 160,120 200,110;170,190 90,195 90,200;85,240 70,290 40,300;40,260 0,260 -40,260;40,200 -80,160 -80,100;0,140 -60,40 0,0");
             }
             return pathFigure;
         }
 
-        public static PathSegmentCollection ConvertSegments(string colDef)
+        public static PathSegmentCollection ConvertSegments(string collDef)
         {
-            return null;
+            var segDefs = collDef.Split(';');
+            var segCol = new PathSegmentCollection();
+            foreach (var segDef in segDefs)
+            {
+                segCol.Add(ConvertSegment(segDef));
+            }
+            return segCol;
         }
 
+        public static PathSegment ConvertSegment(string segDef)
+        {
+            var countComma = segDef.Count(s => s == ',');
+            if(countComma == 1)//LineSegment
+            {
+                return ConvertLine(segDef);
+            }
+            else//PolyBezierSegment
+            {
+                return ConvertCurve(segDef);
+            }
+        }
+
+
+        //No space near comma
         public static PolyBezierSegment ConvertCurve(string curveDef)
         {
-            return null;
+            var pointDefs = curveDef.Split(' ');
+            var segment = new PolyBezierSegment(){ IsStroked = true };
+            foreach (var pointDef in pointDefs)
+            {
+                if(string.IsNullOrEmpty(pointDef.Trim()))
+                {
+                    continue;
+                }
+                segment.Points.Add(ConvertPoint(pointDef));
+            }
+            return segment;
+        }
+
+        public static LineSegment ConvertLine(string lineDef)
+        {
+            var point = ConvertPoint(lineDef);
+            return new LineSegment(point, true);
         }
 
         public static Point ConvertPoint(string pointDef)
         {
-            return new Point();
+            string[] temp = pointDef.Split(',');
+            if(temp.Count() != 2)
+            {
+                throw new FormatException(pointDef);
+            }
+            double x = Convert.ToDouble(temp[0].Trim());
+            double y = Convert.ToDouble(temp[1].Trim());
+           
+            return new Point(x, y);
         }
     }
 }

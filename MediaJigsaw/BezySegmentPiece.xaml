@@ -96,7 +96,7 @@
                         <PathGeometry.Figures>
                             <PathFigureCollection>
                                 <!-- The StartPoint specifies the starting point of the first curve. -->
-                                <!-- 0, 1 -->
+                                <!-- 0, 2 -->
                                 <PathFigure StartPoint="0,0">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
@@ -130,7 +130,7 @@
                         <PathGeometry.Figures>
                             <PathFigureCollection>
                                 <!-- The StartPoint specifies the starting point of the first curve. -->
-                                <!-- 0, 1 -->
+                                <!-- 0, 3 -->
                                 <PathFigure StartPoint="0,0">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
@@ -164,7 +164,7 @@
                         <PathGeometry.Figures>
                             <PathFigureCollection>
                                 <!-- The StartPoint specifies the starting point of the first curve. -->
-                                <!-- 0, 1 -->
+                                <!-- 1, 0 -->
                                 <PathFigure StartPoint="0,0">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
@@ -198,7 +198,7 @@
                         <PathGeometry.Figures>
                             <PathFigureCollection>
                                 <!-- The StartPoint specifies the starting point of the first curve. -->
-                                <!-- 0, 1 -->
+                                <!-- 1, 1 -->
                                 <PathFigure StartPoint="0,0">
                                     <PathFigure.Segments>
                                         <PathSegmentCollection>
