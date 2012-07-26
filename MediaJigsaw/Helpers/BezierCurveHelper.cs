@@ -24,10 +24,75 @@ namespace MediaJigsaw.Helpers
         {
             _bezierCurveModels.Add(new BezierCurveModel(0, 0)
                                        {
-                                           ViewBoxPoint = new Point(0, 0)
-
-                                           //Continue.....
+                                           ViewBoxPoint = new Point(0, 0),
+                                           ViewPortPoint = new Point(0,0),
+                                           Figure = Create(0,0),
+                                           Position = new Point(0, 0)
                                        });
+            _bezierCurveModels.Add(new BezierCurveModel(0, 1)
+                                       {
+                                           ViewBoxPoint = new Point(0, 200),
+                                           ViewPortPoint = new Point(0, 0),
+                                           Figure = Create(0, 1),
+                                           Position = new Point(0, 200)
+                                       });
+            _bezierCurveModels.Add(new BezierCurveModel(0, 2)
+                                       {
+                                           ViewBoxPoint = new Point(0, 400),
+                                           ViewPortPoint = new Point(0, 0),
+                                           Figure = Create(0, 2),
+                                           Position = new Point(0, 400)
+                                       });
+            _bezierCurveModels.Add(new BezierCurveModel(0, 3)
+                                       {
+                                           ViewBoxPoint = new Point(0, 600),
+                                           ViewPortPoint = new Point(0, 0),
+                                           Figure = Create(0, 3),
+                                           Position = new Point(0, 600)
+                                       });
+            _bezierCurveModels.Add(new BezierCurveModel(1, 0)
+                                       {
+                                           ViewBoxPoint = new Point(100, -100),
+                                           ViewPortPoint = new Point(-100, -100),
+                                           Figure = Create(1, 0),
+                                           Position = new Point(200, 0)
+                                       });
+            _bezierCurveModels.Add(new BezierCurveModel(1, 1)
+                                       {
+                                           ViewBoxPoint = new Point(80, 60),
+                                           ViewPortPoint = new Point(-100, -100),
+                                           Figure = Create(1, 1),
+                                           Position = new Point(180, 160)
+                                       });
+//            _bezierCurveModels.Add(new BezierCurveModel(1, 2)
+//                                       {
+//                                           ViewBoxPoint = new Point(0, 200),
+//                                           ViewPortPoint = new Point(0, 0),
+//                                           Figure = Create(1, 2)
+//                                       });
+//            _bezierCurveModels.Add(new BezierCurveModel(1, 3)
+//                                       {
+//                                           ViewBoxPoint = new Point(0, 200),
+//                                           ViewPortPoint = new Point(0, 0),
+//                                           Figure = Create(1, 3)
+//                                       });
+//            _bezierCurveModels.Add(new BezierCurveModel(2, 0)
+//                                       {
+//                                           ViewBoxPoint = new Point(0, 200),
+//                                           ViewPortPoint = new Point(0, 0),
+//                                           Figure = Create(2, 0)
+//                                       });
+//            _bezierCurveModels.Add(new BezierCurveModel(2, 1)
+//                                       {
+//                                           ViewBoxPoint = new Point(0, 200),
+//                                           ViewPortPoint = new Point(0, 0),
+//                                           Figure = Create(2, 1)
+//                                       });
+        }
+
+        public static BezierCurveModel FindModel(int row, int col)
+        {
+            return _bezierCurveModels.Single(m => m.Col == col && m.Row == row);
         }
 
         public static PathFigure Create(int row, int col)
@@ -95,7 +160,6 @@ namespace MediaJigsaw.Helpers
                 return ConvertCurve(segDef);
             }
         }
-
 
         //No space near comma
         public static PolyBezierSegment ConvertCurve(string curveDef)

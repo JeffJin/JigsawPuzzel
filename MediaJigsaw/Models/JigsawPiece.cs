@@ -160,8 +160,5 @@ namespace MediaJigsaw.Models
                 this._pieceSize = value;
             }
         }
-
-        public abstract double X { get;}
-        public abstract double Y { get;}
     }
 }

@@ -34,15 +34,5 @@ namespace MediaJigsaw.Models
         {
             return new Rect(0.0, 0.0, (double)base.PieceSize, (double)base.PieceSize);
         }
-
-        public override double X
-        {
-            get { return this.CurrentColumn*this.PieceSize; }
-        }
-
-        public override double Y
-        {
-            get { return this.CurrentRow*this.PieceSize; }
-        }
     }
 }
