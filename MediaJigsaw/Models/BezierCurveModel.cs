@@ -16,7 +16,7 @@ namespace MediaJigsaw.Models
         public PathFigure Figure { get; set; }
         public Point Position { get; set; }
 
-        public BezierCurveModel(int row, int col)
+        public BezierCurveModel(int col, int row)
         {
             Col = col;
             Row = row;

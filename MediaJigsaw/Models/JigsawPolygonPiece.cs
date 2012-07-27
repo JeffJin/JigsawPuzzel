@@ -10,10 +10,6 @@ namespace MediaJigsaw.Models
 {
     public class JigsawPolygonPiece : JigsawPiece
     {
-        public JigsawPolygonPiece()
-        {
-            
-        }
 
         public JigsawPolygonPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
@@ -39,6 +35,11 @@ namespace MediaJigsaw.Models
         protected override Rect CreateViewport()
         {
             throw new NotImplementedException();
+        }
+
+        public override Point Origin
+        {
+            get { throw new NotImplementedException(); }
         }
 
         private static ConnectionType[] GetConnectionType(int row, int column, int pieceSize)

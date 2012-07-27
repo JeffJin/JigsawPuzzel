@@ -90,12 +90,12 @@ namespace MediaJigsaw.Helpers
 //                                       });
         }
 
-        public static BezierCurveModel FindModel(int row, int col)
+        public static BezierCurveModel FindModel(int col, int row)
         {
-            return _bezierCurveModels.Single(m => m.Col == col && m.Row == row);
+            return _bezierCurveModels.SingleOrDefault(m => m.Col == col && m.Row == row);
         }
 
-        public static PathFigure Create(int row, int col)
+        private static PathFigure Create(int col, int row)
         {
             var pathFigure = new PathFigure() { Segments = new PathSegmentCollection() };
             if (row == 0 && col == 0)

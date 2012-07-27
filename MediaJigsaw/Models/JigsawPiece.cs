@@ -26,11 +26,6 @@ namespace MediaJigsaw.Models
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected JigsawPiece()
-        {
-            
-        }
-
         //clean up previous setup for this image piece
         public void Clear()
         {
@@ -54,7 +49,6 @@ namespace MediaJigsaw.Models
             this.CurrentColumn = col;
             this.CurrentRow = row;
             this.PieceSize = (int)pieceSize;
-            this.InitShapeProperties();
         }
 
         protected abstract Geometry CreateGeometry();
@@ -68,7 +62,7 @@ namespace MediaJigsaw.Models
             }
         }
 
-        private void InitShapeProperties()
+        protected virtual void InitShapeProperties()
         {
             base.Stroke = new SolidColorBrush(Colors.DarkOliveGreen);
             base.StrokeThickness = 1.0;
@@ -160,5 +154,7 @@ namespace MediaJigsaw.Models
                 this._pieceSize = value;
             }
         }
+
+        public abstract Point Origin { get; }
     }
 }

@@ -12,15 +12,15 @@ namespace MediaJigsaw.Models
     public class JigsawBezyPiece : JigsawPiece
     {
         private BezierCurveModel _bezierCurveModel;
-        public JigsawBezyPiece()
-        {
-            
-        }
 
         public JigsawBezyPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
-            _bezierCurveModel = BezierCurveHelper.FindModel(row, col);
+            _bezierCurveModel = BezierCurveHelper.FindModel(col, row);
+            if(_bezierCurveModel != null)
+            {
+                base.InitShapeProperties();
+            }
         }
 
         protected override Geometry CreateGeometry()
@@ -31,8 +31,7 @@ namespace MediaJigsaw.Models
 
         private PathGeometry CreatePolyBezierPath()
         {
-            var pathFigure = BezierCurveHelper.Create(base.CurrentRow, base.CurrentColumn);
-            return new PathGeometry {Figures = {pathFigure}};
+            return new PathGeometry {Figures = {_bezierCurveModel.Figure}};
         }
 
         protected override Rect CreateViewbox()
@@ -43,6 +42,11 @@ namespace MediaJigsaw.Models
         protected override Rect CreateViewport()
         {
             return new Rect(_bezierCurveModel.ViewPortPoint.X, _bezierCurveModel.ViewPortPoint.Y, ViewSize, ViewSize);
+        }
+
+        public override Point Origin
+        {
+            get { return _bezierCurveModel.Position; }
         }
 
         private double ViewSize

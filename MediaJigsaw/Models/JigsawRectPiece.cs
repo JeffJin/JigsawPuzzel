@@ -10,14 +10,12 @@ namespace MediaJigsaw.Models
 {
     public class JigsawRectPiece : JigsawPiece
     {
-        public JigsawRectPiece()
-        {
-            
-        }
-
+        private Point _origin;
         public JigsawRectPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
+            _origin = new Point((col * pieceSize), (double)(row * pieceSize));
+            base.InitShapeProperties();
         }
 
         protected override Geometry CreateGeometry()
@@ -33,6 +31,11 @@ namespace MediaJigsaw.Models
         protected override Rect CreateViewport()
         {
             return new Rect(0.0, 0.0, (double)base.PieceSize, (double)base.PieceSize);
+        }
+
+        public override Point Origin
+        {
+            get { return _origin; }
         }
     }
 }

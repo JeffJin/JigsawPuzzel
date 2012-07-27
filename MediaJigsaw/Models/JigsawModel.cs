@@ -117,14 +117,19 @@ namespace MediaJigsaw.Models
                 }
             }
             var pieces = new List<IJigsawPiece>();
-            for (int row = 0; row < this._rows; row++)
+            for (int row = 0; row < 4; row++)
             {
-                for (int col = 0; col < this._columns; col++)
+                for (int col = 0; col < 1; col++)
                 {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
                     pieces.Add(jigsawPiece);
                 }
             }
+            var p = JigsawPieceFactory.Create(this.ImageSource, 1, 0, this.PieceSize, this.PieceType);
+            pieces.Add(p);
+             p = JigsawPieceFactory.Create(this.ImageSource, 1, 1, this.PieceSize, this.PieceType);
+            pieces.Add(p);
+
             this.Pieces = pieces;
             //this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
             foreach (JigsawPiece piece in this.Pieces)
@@ -191,8 +196,8 @@ namespace MediaJigsaw.Models
         private void InsertPiece(Canvas canvas, JigsawPiece piece)
         {
             canvas.Children.Add(piece);
-            Canvas.SetLeft(piece, piece.X);
-            Canvas.SetTop(piece, piece.Y);
+            Canvas.SetLeft(piece, piece.Origin.X);
+            Canvas.SetTop(piece, piece.Origin.Y);
             piece.MouseDown += new MouseButtonEventHandler(this.Piece_MouseDown);
             piece.MouseMove += new MouseEventHandler(this.Piece_MouseMove);
             piece.MouseUp += new MouseButtonEventHandler(this.Piece_MouseUp);
