@@ -154,7 +154,14 @@ namespace MediaJigsaw.Models
                 this._pieceSize = value;
             }
         }
-
+        /// <summary>
+        /// Original position
+        /// </summary>
         public abstract Point Origin { get; }
+
+        /// <summary>
+        /// Current position of the piece
+        /// </summary>
+        public abstract Point Position { get; set; }
     }
 }

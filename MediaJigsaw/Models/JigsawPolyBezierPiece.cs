@@ -8,10 +8,10 @@ using System.Windows.Media.Imaging;
 
 namespace MediaJigsaw.Models
 {
-    public class JigsawPolygonPiece : JigsawPiece
+    public class JigsawPolyBezierPiece : JigsawPiece
     {
 
-        public JigsawPolygonPiece(BitmapImage imageSource, int col, int row, double pieceSize)
+        public JigsawPolyBezierPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
         }
@@ -40,6 +40,12 @@ namespace MediaJigsaw.Models
         public override Point Origin
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public override Point Position
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         private static ConnectionType[] GetConnectionType(int row, int column, int pieceSize)

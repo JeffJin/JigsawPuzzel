@@ -17,7 +17,8 @@ namespace MediaJigsaw.Models
         int OriginColumn { get; }
         int OriginRow { get; }
         int PieceSize { get; }
-
+        Point Position { get; set; }
+        Point Origin { get; }
         void Clear();
     }
 }

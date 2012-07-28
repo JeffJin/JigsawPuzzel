@@ -14,9 +14,9 @@ namespace MediaJigsaw.Helpers
             if (type == PieceType.Rectangle)
                 return new JigsawRectPiece(bitmapImage, col, row, pieceSize);
             if (type == PieceType.Polygon)
-                return new JigsawPolygonPiece(bitmapImage, col, row, pieceSize);
+                return new JigsawPolyBezierPiece(bitmapImage, col, row, pieceSize);
             if (type == PieceType.PolyBezier)
-                return new JigsawBezyPiece(bitmapImage, col, row, pieceSize);
+                return new JigsawSimpleBezierPiece(bitmapImage, col, row, pieceSize);
 
             throw new Exception("Invalid piece type");
         }

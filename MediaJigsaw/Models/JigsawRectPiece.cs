@@ -8,13 +8,14 @@ using System.Windows.Media.Imaging;
 
 namespace MediaJigsaw.Models
 {
-    public class JigsawRectPiece : JigsawPiece
+    public sealed class JigsawRectPiece : JigsawPiece
     {
         private Point _origin;
         public JigsawRectPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
             _origin = new Point((col * pieceSize), (double)(row * pieceSize));
+            this.Position = _origin;
             base.InitShapeProperties();
         }
 
@@ -37,5 +38,7 @@ namespace MediaJigsaw.Models
         {
             get { return _origin; }
         }
+
+        public override Point Position { get; set; }
     }
 }

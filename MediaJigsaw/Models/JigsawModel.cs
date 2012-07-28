@@ -79,9 +79,9 @@ namespace MediaJigsaw.Models
         {
             for (var i = this.Window.Canvas.Children.Count - 1; i >= 0; i--)
             {
-                if (this.Window.Canvas.Children[i] is JigsawPiece)
+                var p = this.Window.Canvas.Children[i] as JigsawPiece;
+                if (p != null)
                 {
-                    JigsawPiece p = (JigsawPiece)this.Window.Canvas.Children[i];
                     p.MouseDown -= new MouseButtonEventHandler(this.Piece_MouseDown);
                     p.MouseMove -= new MouseEventHandler(this.Piece_MouseMove);
                     p.MouseUp -= new MouseButtonEventHandler(this.Piece_MouseUp);
@@ -119,16 +119,12 @@ namespace MediaJigsaw.Models
             var pieces = new List<IJigsawPiece>();
             for (int row = 0; row < 4; row++)
             {
-                for (int col = 0; col < 1; col++)
+                for (int col = 0; col < 2; col++)
                 {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
                     pieces.Add(jigsawPiece);
                 }
             }
-            var p = JigsawPieceFactory.Create(this.ImageSource, 1, 0, this.PieceSize, this.PieceType);
-            pieces.Add(p);
-             p = JigsawPieceFactory.Create(this.ImageSource, 1, 1, this.PieceSize, this.PieceType);
-            pieces.Add(p);
 
             this.Pieces = pieces;
             //this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
@@ -139,7 +135,7 @@ namespace MediaJigsaw.Models
             return this.Pieces;
         }
 
-        private IList<IJigsawPiece> CreatePuzzle(string streamFileName)
+        private IList<IJigsawPiece> CreateJigsawPieces(string streamFileName)
         {
             using (Stream streamSource = this.LoadImage(streamFileName))
             {
@@ -152,6 +148,7 @@ namespace MediaJigsaw.Models
 
         private IJigsawPiece FindPieceByMousePosition(Point point)
         {
+            //TODO: Should find the piece by mouse position
             int targetRow = (int) (point.Y/this.PieceSize);
             int targetCol = (int) (point.X/this.PieceSize);
             return
@@ -275,15 +272,11 @@ namespace MediaJigsaw.Models
         {
             if ((original != null) && (target != null))
             {
-                Point fromPointForTarget = new Point(target.CurrentColumn*this.PieceSize,
-                                                     target.CurrentRow*this.PieceSize);
-                Point toPointForTarget = new Point(original.CurrentColumn*this.PieceSize,
-                                                   original.CurrentRow*this.PieceSize);
-//                Point fromPointForOriginal =
-//                    original.TransformToAncestor(this.Window.Canvas).Transform(new Point(0.0, 0.0));
-                Point toPointForOriginal = fromPointForTarget;
-                this.MovePiece(target, toPointForTarget);
-                this.MovePiece(original, toPointForOriginal);
+                this.MovePiece(target, original.Position);
+                this.MovePiece(original, target.Position);
+                var tempOriginPoint = new Point(original.Position.X, original.Position.Y);
+                original.Position = new Point(target.Position.X, target.Position.Y);
+                target.Position = tempOriginPoint;
                 int targetX = target.CurrentColumn;
                 int targetY = target.CurrentRow;
                 target.CurrentColumn = original.CurrentColumn;
@@ -337,11 +330,9 @@ namespace MediaJigsaw.Models
             {
                 Point piecePosition = e.GetPosition(this.Window.Canvas);
                 //TODO: Need to modify
-                var leftDelta = pieceView.CurrentColumn*pieceView.PieceSize;
-                leftDelta = leftDelta > 0 ? leftDelta : 0;
+                var leftDelta = pieceView.Origin.X;
                 var left = piecePosition.X - _mouseDownPosition.X + leftDelta;
-                var rightDelta = pieceView.CurrentRow*pieceView.PieceSize;
-                rightDelta = rightDelta > 0 ? rightDelta : 0;
+                var rightDelta = pieceView.Origin.Y;
                 var right = piecePosition.Y - _mouseDownPosition.Y + rightDelta;
                 
                 Info = string.Format("{0}; Mouse Move X = {1}, Mouse Move Y = {2}", _mouseDownInfo, left, right);
@@ -384,7 +375,7 @@ namespace MediaJigsaw.Models
                     //clean up previous game
                     DestroyImageReferences();
                     this.SourceFileName = ofd.FileName;
-                    this.Pieces = this.CreatePuzzle(this.SourceFileName);
+                    this.Pieces = this.CreateJigsawPieces(this.SourceFileName);
                 }
                 catch (Exception exc)
                 {
@@ -399,7 +390,7 @@ namespace MediaJigsaw.Models
             //clean up previous game
             this.Window.Canvas.Children.Clear();
             this.Pieces.Clear();
-            this.CreatePuzzle(this.SourceFileName);
+            this.CreateJigsawPieces(this.SourceFileName);
         }
 
         private void ShowPicture()

@@ -9,17 +9,18 @@ using MediaJigsaw.Helpers;
 
 namespace MediaJigsaw.Models
 {
-    public class JigsawBezyPiece : JigsawPiece
+    public sealed class JigsawSimpleBezierPiece : JigsawPiece
     {
         private BezierCurveModel _bezierCurveModel;
 
-        public JigsawBezyPiece(BitmapImage imageSource, int col, int row, double pieceSize)
+        public JigsawSimpleBezierPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
             _bezierCurveModel = BezierCurveHelper.FindModel(col, row);
             if(_bezierCurveModel != null)
             {
                 base.InitShapeProperties();
+                this.Position = _bezierCurveModel.Position;
             }
         }
 
@@ -48,6 +49,8 @@ namespace MediaJigsaw.Models
         {
             get { return _bezierCurveModel.Position; }
         }
+
+        public override Point Position { get; set; }
 
         private double ViewSize
         {

@@ -64,18 +64,20 @@ namespace MediaJigsaw.Helpers
                                            Figure = Create(1, 1),
                                            Position = new Point(180, 160)
                                        });
-//            _bezierCurveModels.Add(new BezierCurveModel(1, 2)
-//                                       {
-//                                           ViewBoxPoint = new Point(0, 200),
-//                                           ViewPortPoint = new Point(0, 0),
-//                                           Figure = Create(1, 2)
-//                                       });
-//            _bezierCurveModels.Add(new BezierCurveModel(1, 3)
-//                                       {
-//                                           ViewBoxPoint = new Point(0, 200),
-//                                           ViewPortPoint = new Point(0, 0),
-//                                           Figure = Create(1, 3)
-//                                       });
+            _bezierCurveModels.Add(new BezierCurveModel(1, 2)
+                                       {
+                                           ViewBoxPoint = new Point(140, 360),
+                                           ViewPortPoint = new Point(0, -60),
+                                           Figure = Create(1, 2),
+                                           Position = new Point(140, 420)
+                                       });
+            _bezierCurveModels.Add(new BezierCurveModel(1, 3)
+                                       {
+                                           ViewBoxPoint = new Point(110, 540),
+                                           ViewPortPoint = new Point(-100, -100),
+                                           Position = new Point(210, 640),
+                                           Figure = Create(1, 3)
+                                       });
 //            _bezierCurveModels.Add(new BezierCurveModel(2, 0)
 //                                       {
 //                                           ViewBoxPoint = new Point(0, 200),
@@ -133,6 +135,18 @@ namespace MediaJigsaw.Helpers
                 pathFigure.StartPoint = ConvertPoint("0,0");
                 pathFigure.Segments =
                     ConvertSegments("60,-40 120,20 140,40;130,80 160,120 200,110;170,190 90,195 90,200;85,240 70,290 40,300;40,260 0,260 -40,260;40,200 -80,160 -80,100;0,140 -60,40 0,0");
+            }
+            else if (row == 2 && col == 1)
+            {
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("40,0 80,0 80,40;110,30 125,-20 130,-60;300,30 200,100 300,180;200,330 200,100 70,220;-20,80 80,10 0,0");
+            }
+            else if (row == 3 && col == 1)
+            {
+                pathFigure.StartPoint = ConvertPoint("0,0");
+                pathFigure.Segments =
+                    ConvertSegments("130,-120 130,110 230,-40;210,130 55,60 210,160;-10, 160;-70,10 -160,60 0,0");
             }
             return pathFigure;
         }

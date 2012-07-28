@@ -80,6 +80,7 @@
     <Compile Include="BezySegmentPiece.xaml.cs">
       <DependentUpon>BezySegmentPiece.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\JigsawController.cs" />
     <Compile Include="Helpers\CanvasAssistant.cs" />
     <Compile Include="Helpers\BezierCurveHelper.cs" />
     <Compile Include="Helpers\JigsawHelper.cs" />
@@ -98,10 +99,10 @@
     <Compile Include="Models\BezierCurveModel.cs" />
     <Compile Include="Models\ConnectionType.cs" />
     <Compile Include="Models\IJigsawPiece.cs" />
-    <Compile Include="Models\JigsawBezyPiece.cs" />
+    <Compile Include="Models\JigsawSimpleBezierPiece.cs" />
     <Compile Include="Models\JigsawModel.cs" />
     <Compile Include="Models\JigsawPiece.cs" />
-    <Compile Include="Models\JigsawPolygonPiece.cs" />
+    <Compile Include="Models\JigsawPolyBezierPiece.cs" />
     <Compile Include="Models\JigsawRectPiece.cs" />
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Infrastructure\PieceTypeConverter.cs" />
@@ -137,6 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="jigsaw.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
