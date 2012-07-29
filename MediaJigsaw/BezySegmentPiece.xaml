@@ -283,6 +283,70 @@
                 </Path.Data>
             </Path>
             
+             <!-- 2, 0 -->
+            <Path Stroke="Plum" StrokeThickness="3">
+                <Canvas.Left>400</Canvas.Left>
+                <Canvas.Top>0</Canvas.Top>
+                <Path.Fill>
+                    <ImageBrush ImageSource="Images/Penguins.jpg"
+                                Viewbox="300, 0, 600, 600"
+                                ViewboxUnits="Absolute"
+                                Viewport="-100, -0, 600, 600"
+                                ViewportUnits="Absolute"
+                                Stretch="None"
+                                ></ImageBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="0, 0">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <LineSegment Point="200, 0"/>
+                                            <PolyBezierSegment Points="330,120 130,110 240,200" />
+                                            <PolyBezierSegment Points="230,220 130,280 -80,200" />
+                                            <PolyBezierSegment Points="-70,180 80,160 0,0" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+
+            <!-- 2, 1 TODO A Lot :(-->
+            <Path Stroke="Green" StrokeThickness="3">
+                <Canvas.Left>320</Canvas.Left>
+                <Canvas.Top>200</Canvas.Top>
+                <Path.Fill>
+                    <ImageBrush ImageSource="Images/Penguins.jpg"
+                                Viewbox="0, 0, 600, 600"
+                                ViewboxUnits="Absolute"
+                                Viewport="-0, -0, 600, 600"
+                                ViewportUnits="Absolute"
+                                Stretch="None"
+                                ></ImageBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="0, 0">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <PolyBezierSegment Points="330,120 130,110 240,200" />
+                                            <PolyBezierSegment Points="-70,180 80,160 0,0" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+            
             
         </Canvas>
     </StackPanel>

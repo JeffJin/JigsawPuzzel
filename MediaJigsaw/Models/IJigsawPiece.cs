@@ -20,5 +20,9 @@ namespace MediaJigsaw.Models
         Point Position { get; set; }
         Point Origin { get; }
         void Clear();
+
+        //Framework Interfaces
+        void SetValue(DependencyProperty key, object value);
+        object GetValue(DependencyProperty dp);
     }
 }

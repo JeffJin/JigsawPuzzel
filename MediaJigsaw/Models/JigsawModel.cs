@@ -274,15 +274,21 @@ namespace MediaJigsaw.Models
             {
                 this.MovePiece(target, original.Position);
                 this.MovePiece(original, target.Position);
+                //swap position
                 var tempOriginPoint = new Point(original.Position.X, original.Position.Y);
                 original.Position = new Point(target.Position.X, target.Position.Y);
                 target.Position = tempOriginPoint;
+                //Swap column and row numbers
                 int targetX = target.CurrentColumn;
                 int targetY = target.CurrentRow;
                 target.CurrentColumn = original.CurrentColumn;
                 target.CurrentRow = original.CurrentRow;
                 original.CurrentColumn = targetX;
                 original.CurrentRow = targetY;
+
+                //Adjust Z Index
+                int zIndex = (int)original.GetValue(Panel.ZIndexProperty);
+                original.SetValue(Panel.ZIndexProperty, zIndex + 1);
                 if (this.CheckPieces())
                 {
                     MessageBox.Show("You have successfully finished this puzzel", "Congratulations!");
@@ -295,11 +301,11 @@ namespace MediaJigsaw.Models
         private string _mouseDownInfo;
         private void Piece_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            JigsawPiece pieceView = (JigsawPiece) sender;
+            var pieceView = (IJigsawPiece) sender;
             this._isDragging = true;
             this._mouseDownPosition = e.GetPosition(this.Window.Canvas);
             pieceView.CaptureMouse();
-            pieceView.SetValue(Panel.ZIndexProperty, 0x3e8);
+            pieceView.SetValue(Panel.ZIndexProperty, 100);
 
             _mouseDownInfo = string.Format("MouseDown X = {0}, MouseDown Y = {1}", this._mouseDownPosition.X, this._mouseDownPosition.Y);
             Info = _mouseDownInfo;
@@ -329,11 +335,8 @@ namespace MediaJigsaw.Models
                      ((absMouseYpos > 0) && (absMouseYpos < this.SupportedImageHeight)))
             {
                 Point piecePosition = e.GetPosition(this.Window.Canvas);
-                //TODO: Need to modify
-                var leftDelta = pieceView.Origin.X;
-                var left = piecePosition.X - _mouseDownPosition.X + leftDelta;
-                var rightDelta = pieceView.Origin.Y;
-                var right = piecePosition.Y - _mouseDownPosition.Y + rightDelta;
+                var left = piecePosition.X - _mouseDownPosition.X + pieceView.Position.X;
+                var right = piecePosition.Y - _mouseDownPosition.Y + pieceView.Position.Y;
                 
                 Info = string.Format("{0}; Mouse Move X = {1}, Mouse Move Y = {2}", _mouseDownInfo, left, right);
                 Canvas.SetLeft(pieceView, left);//
