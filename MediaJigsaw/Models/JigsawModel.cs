@@ -119,13 +119,12 @@ namespace MediaJigsaw.Models
             var pieces = new List<IJigsawPiece>();
             for (int row = 0; row < 4; row++)
             {
-                for (int col = 0; col < 2; col++)
+                for (int col = 0; col < 3; col++)
                 {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
                     pieces.Add(jigsawPiece);
                 }
             }
-
             this.Pieces = pieces;
             //this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
             foreach (JigsawPiece piece in this.Pieces)
