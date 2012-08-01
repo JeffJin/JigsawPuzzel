@@ -94,9 +94,9 @@ namespace MediaJigsaw.Helpers
                                        });
             _bezierCurveModels.Add(new BezierCurveModel(2, 2)
                                        {
-                                           ViewBoxPoint = new Point(270, 360),
-                                           ViewPortPoint = new Point(0, 0),
-                                           Position = new Point(270, 360),
+                                           ViewBoxPoint = new Point(370, 390),
+                                           ViewPortPoint = new Point(0, -50),
+                                           Position = new Point(370, 390),
                                            Figure = Create(2, 2)
                                        });
             _bezierCurveModels.Add(new BezierCurveModel(2, 3)
@@ -150,13 +150,13 @@ namespace MediaJigsaw.Helpers
             {
                 pathFigure.StartPoint = ConvertPoint("0,0");
                 pathFigure.Segments =
-                    ConvertSegments("60,-40 120,20 140,40;130,80 160,120 200,110;170,190 90,195 90,200;85,240 70,290 40,300;40,260 0,260 -40,260;40,200 -80,160 -80,100;0,140 -60,40 0,0");
+                    ConvertSegments("60,-40 120,20 140,40;130,80 160,120 200,110;170,190 90,195 190,230;85,240 70,290 40,300;40,260 0,260 -40,260;40,200 -80,160 -80,100;0,140 -60,40 0,0");
             }
             else if (row == 2 && col == 1)
             {
                 pathFigure.StartPoint = ConvertPoint("0,0");
                 pathFigure.Segments =
-                    ConvertSegments("40,0 80,0 80,40;110,30 125,-20 130,-60;300,30 200,100 300,180;200,330 200,100 70,220;-20,80 80,10 0,0");
+                    ConvertSegments("40,0 80,0 80,40;110,30 125,-20 230,-30;300,30 200,100 300,180;200,330 200,100 70,220;-20,80 80,10 0,0");
             }
             else if (row == 3 && col == 1)
             {
@@ -174,13 +174,13 @@ namespace MediaJigsaw.Helpers
             {
                 pathFigure.StartPoint = ConvertPoint("0,0");
                 pathFigure.Segments =
-                    ConvertSegments("210,80 310,20 320,0;230,260 430,250 250,220;130,260 240,250 -50,160; -50,160 30,150 60,70; 20,80 -10,40 0,0");
+                    ConvertSegments("210,80 310,20 320,0;230,260 330,250 240,240;130,100 240,250 50,190; -50,160 30,150 60,70; 20,80 -10,40 0,0");
             }
             else if (row == 2 && col == 2)
             {
                 pathFigure.StartPoint = ConvertPoint("0,0");
                 pathFigure.Segments =
-                    ConvertSegments("290,90 180,-60 330,80;230,260 330,250 300,250;230,260 200,250 170,240;70,160 170,90 0,0");
+                    ConvertSegments("190,60 80,-90 230,50;130,230 230,220 200,220;130,230 100,220 70,210;-30,130 70,60 0,0");
             } 
             else if (row == 3 && col == 2)
             {

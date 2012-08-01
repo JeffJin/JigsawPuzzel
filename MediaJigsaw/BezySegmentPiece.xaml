@@ -105,7 +105,7 @@
             </Path>
                                 
             <!-- 1, 1 -->
-            <Path Stroke="Plum" StrokeThickness="3" Data="M0,0 C60,-40 120,20 140,40 C130,80 160,120 200,110 C170,190 90,195 90,200 C85,240 70,290 40,300 C40,260 0,260 -40,260 C40,200 -80,160 -80,100 C0,140 -60,40 0,0">
+            <Path Stroke="Plum" StrokeThickness="3" Data="M0,0 C60,-40 120,20 140,40 C130,80 160,120 200,110 C170,190 90,195 190,230 C85,240 70,290 40,300 C40,260 0,260 -40,260 C40,200 -80,160 -80,100 C0,140 -60,40 0,0">
                 <Canvas.Left>
                 	<System:Double>180</System:Double>
 </Canvas.Left>
@@ -124,7 +124,7 @@
             </Path>
             
             <!-- 1, 2 -->
-            <Path Stroke="Plum" StrokeThickness="3" Data="M0,0 C40,0 80,0 80,40 C110,30 125,-20 130,-60 C300,30 200,100 300,180 C200,330 200,100 70,220 C-20,80 80,10 0,0">
+            <Path Stroke="Plum" StrokeThickness="3" Data="M0,0 C40,0 80,0 80,40 C110,30 125,-20 230,-30 C300,30 200,100 300,180 C200,330 200,100 70,220 C-20,80 80,10 0,0">
                 <Canvas.Left>
                 	<System:Double>140</System:Double>
 </Canvas.Left>
@@ -181,7 +181,7 @@
             </Path>
 
             <!-- 2, 1 -->
-            <Path Data="M0,0 C210,80 310,20 320,0 C230,260 330,250 280,240 C130,100 240,250 -50,160 C-50,155 30,150 60,70 C20,80 -10,40 0,0" Canvas.Left="320" Canvas.Top="200" Stroke="Plum" StrokeThickness="3">
+            <Path Data="M0,0 C210,80 310,20 320,0 C230,260 330,250 240,240 C130,100 240,250 50,190 C-50,160 30,150 60,70 C20,80 -10,40 0,0" Canvas.Left="320" Canvas.Top="200" Stroke="Plum" StrokeThickness="3">
         	    <Path.Fill>
         		    <ImageBrush ImageSource="Images/Penguins.jpg"
         			    Viewbox="220, 200, 600, 600"
@@ -193,12 +193,12 @@
             </Path>
             
             <!-- 2, 2 -->
-            <Path Data="M0,0 C290,90 180,-60 330,80 C230,260 330,250 300,250 C230,260 200,250 170,240 C70,160 170,90 0,0" Canvas.Left="270" Canvas.Top="360" Stroke="Plum" StrokeThickness="3">
+            <Path Data="M0,0 C190,60 80,-90 230,50 C130,230 230,220 200,220 C130,230 100,220 70,210 C-30,130 70,60 0,0" Canvas.Left="370" Canvas.Top="390" Stroke="Plum" StrokeThickness="3">
         	    <Path.Fill>
         		    <ImageBrush ImageSource="Images/Penguins.jpg"
-        			    Viewbox="270, 360, 600, 600"
+        			    Viewbox="370, 390, 600, 600"
         			    ViewboxUnits="Absolute"
-        			    Viewport="0, 0, 600, 600"
+        			    Viewport="0, -50, 600, 600"
         			    ViewportUnits="Absolute"
         			    Stretch="None"/>
         	    </Path.Fill>
@@ -208,9 +208,45 @@
             <Path Data="M0,0 C30,10 60,20 130,10 C130,110 260,90 130,200 L-20,200 C-175,100 -20,170 0,0" Canvas.Left="440" Canvas.Top="600" Stroke="Plum" StrokeThickness="3">
         	    <Path.Fill>
         		    <ImageBrush ImageSource="Images/Penguins.jpg"
-        			    Viewbox="240, 600, 600, 600"
+        			    Viewbox="440, 600, 600, 600"
         			    ViewboxUnits="Absolute"
-        			    Viewport="-200, 0, 600, 600"
+        			    Viewport="0, 0, 600, 600"
+        			    ViewportUnits="Absolute"
+        			    Stretch="None"/>
+        	    </Path.Fill>
+            </Path>
+            
+            <!-- 3, 0 -->
+            <Path Data="M0,0 L200,0 L200,220 C150,300 60,120 40,200 C-70,110 130,120 0,0" Canvas.Left="600" Canvas.Top="0" Stroke="Plum" StrokeThickness="3">
+        	    <Path.Fill>
+        		    <ImageBrush ImageSource="Images/Penguins.jpg"
+        			    Viewbox="600, 0, 600, 600"
+        			    ViewboxUnits="Absolute"
+        			    Viewport="0, 0, 600, 600"
+        			    ViewportUnits="Absolute"
+        			    Stretch="None"/>
+        	    </Path.Fill>
+            </Path>
+            
+            <!-- 3, 1 -->
+            <Path Data="M0,0 C20,-80 110,100 160,20 L160,230 C130,200 60,150 0,260 C-10,280 -90,260 0,0" Canvas.Left="640" Canvas.Top="200" Stroke="Plum" StrokeThickness="3">
+        	    <Path.Fill>
+        		    <ImageBrush ImageSource="Images/Penguins.jpg"
+        			    Viewbox="540, 100, 600, 600"
+        			    ViewboxUnits="Absolute"
+        			    Viewport="-100, -100, 600, 600"
+        			    ViewportUnits="Absolute"
+        			    Stretch="None"/>
+        	    </Path.Fill>
+            </Path>  
+            
+            <!-- 3, 2 -->
+            <Path Data="M5,0 C20,25 35,35 40,15 C100,-90 170,-40 200,-10 L200,220 C100,230 200,60 -30,170 C-20,170 -90,160 0,0" Canvas.Left="600" Canvas.Top="440" Stroke="Green" StrokeThickness="3">
+        	    <Path.Fill>
+        		    <ImageBrush ImageSource="Images/Penguins.jpg"
+        			    Viewbox="550, 390, 600, 600"
+        			    ViewboxUnits="Absolute"
+        			    Viewport="-50, -50, 600, 600"
         			    ViewportUnits="Absolute"
         			    Stretch="None"/>
         	    </Path.Fill>
