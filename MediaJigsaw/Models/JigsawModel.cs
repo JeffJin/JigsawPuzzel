@@ -119,7 +119,7 @@ namespace MediaJigsaw.Models
             var pieces = new List<IJigsawPiece>();
             for (int row = 0; row < 4; row++)
             {
-                for (int col = 0; col < 3; col++)
+                for (int col = 0; col < 4; col++)
                 {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
                     pieces.Add(jigsawPiece);
@@ -192,8 +192,8 @@ namespace MediaJigsaw.Models
         private void InsertPiece(Canvas canvas, JigsawPiece piece)
         {
             canvas.Children.Add(piece);
-            Canvas.SetLeft(piece, piece.Origin.X);
-            Canvas.SetTop(piece, piece.Origin.Y);
+            Canvas.SetLeft(piece, piece.Position.X);
+            Canvas.SetTop(piece, piece.Position.Y);
             piece.MouseDown += new MouseButtonEventHandler(this.Piece_MouseDown);
             piece.MouseMove += new MouseEventHandler(this.Piece_MouseMove);
             piece.MouseUp += new MouseButtonEventHandler(this.Piece_MouseUp);
