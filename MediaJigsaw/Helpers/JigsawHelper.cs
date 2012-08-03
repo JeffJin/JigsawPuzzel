@@ -14,7 +14,6 @@ namespace MediaJigsaw.Helpers
             var random = new Random();
             var temp = new List<KeyValuePair<int, int>>();
             Point tempPoint;
-            IJigsawPiece tempPiece;
             foreach (JigsawPiece piece in pieces)
             {
                 int row = random.Next(0, rows);
@@ -25,14 +24,15 @@ namespace MediaJigsaw.Helpers
                     row = random.Next(0, rows);
                     col = random.Next(0, cols);
                 }
-                tempPiece = pieces.Single(p => p.OriginRow == row && p.OriginColumn == col);
-                tempPoint = new Point(piece.Position.X, piece.Position.Y);
-
+                IJigsawPiece targetPiece = pieces.Single(p => p.OriginRow == row && p.OriginColumn == col);
                 temp.Add(new KeyValuePair<int, int>(row, col));
                 piece.CurrentRow = row;
                 piece.CurrentColumn = col;
-                piece.Position = new Point(tempPiece.Position.X, tempPiece.Position.Y);
-                tempPiece.Position = tempPoint;
+
+                //swap positions
+                tempPoint = new Point(targetPiece.Position.X, targetPiece.Position.Y);
+                targetPiece.Position = new Point(piece.Position.X, piece.Position.Y);
+                piece.Position = tempPoint;
 
             }
             return pieces;

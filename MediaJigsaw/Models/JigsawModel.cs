@@ -117,16 +117,16 @@ namespace MediaJigsaw.Models
                 }
             }
             var pieces = new List<IJigsawPiece>();
-            for (int row = 0; row < 4; row++)
+            for (int row = 0; row < this._rows; row++)
             {
-                for (int col = 0; col < 4; col++)
+                for (int col = 0; col < this._columns; col++)
                 {
                     IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
                     pieces.Add(jigsawPiece);
                 }
             }
             this.Pieces = pieces;
-            //this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
+            this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
             foreach (JigsawPiece piece in this.Pieces)
             {
                 this.InsertPiece(this.Window.Canvas, piece);
@@ -261,10 +261,6 @@ namespace MediaJigsaw.Models
                 Canvas.SetLeft(uiElement, toPoint.X);
                 Canvas.SetTop(uiElement, toPoint.Y);
             }
-            else
-            {
-                //log or throw exception
-            }
         }
 
         private void MovePieces(IJigsawPiece original, IJigsawPiece target)
@@ -306,7 +302,8 @@ namespace MediaJigsaw.Models
             pieceView.CaptureMouse();
             pieceView.SetValue(Panel.ZIndexProperty, 100);
 
-            _mouseDownInfo = string.Format("MouseDown X = {0}, MouseDown Y = {1}", this._mouseDownPosition.X, this._mouseDownPosition.Y);
+            _mouseDownInfo = string.Format("MouseDown X = {0}, MouseDown Y = {1}, Column = {2}, Row = {3}",
+                this._mouseDownPosition.X, this._mouseDownPosition.Y, pieceView.CurrentColumn, pieceView.CurrentRow);
             Info = _mouseDownInfo;
         }
 
@@ -337,7 +334,8 @@ namespace MediaJigsaw.Models
                 var left = piecePosition.X - _mouseDownPosition.X + pieceView.Position.X;
                 var right = piecePosition.Y - _mouseDownPosition.Y + pieceView.Position.Y;
                 
-                Info = string.Format("{0}; Mouse Move X = {1}, Mouse Move Y = {2}", _mouseDownInfo, left, right);
+                Info = string.Format("{0}; Mouse Move X = {1}, Mouse Move Y = {2}, Column = {3}, Row = {4}",
+                    _mouseDownInfo, left, right, pieceView.CurrentColumn, pieceView.CurrentRow);
                 Canvas.SetLeft(pieceView, left);//
                 Canvas.SetTop(pieceView, right);//
             }
