@@ -45,6 +45,8 @@ namespace MediaJigsaw.Models
         {
             this.InitCommands();
             this.InitProperties();
+            this.PieceSize = 200.0;
+            this.PieceType = PieceType.PolyBezier;
         }
 
         //check if the pieces are in the correct position
@@ -177,16 +179,13 @@ namespace MediaJigsaw.Models
             this.ShowImageSource = Visibility.Collapsed;
             this.ShowPuzzelCanvas = Visibility.Visible;
             this._pieces = new List<IJigsawPiece>();
-            var availableSizes = new Dictionary<double, string>
+            this.AvailableSizes = new Dictionary<double, string>
                                                             {
-                                                                {50.0, "50px"},
-                                                                {100.0, "100px"},
+                                                                {400.0, "400px"},
                                                                 {200.0, "200px"},
-                                                                {400.0, "400px"}
+                                                                {100.0, "100px"},
+                                                                {50.0, "50px"},
                                                             };
-            this.AvailableSizes = availableSizes;
-            this.PieceSize = 200.0;
-            this.PieceType = PieceType.PolyBezier;
         }
 
         private void InsertPiece(Canvas canvas, JigsawPiece piece)
@@ -435,8 +434,8 @@ namespace MediaJigsaw.Models
                     _availablePieceTypes = new Dictionary<string, PieceType>()
                            {
                                {"Rectangle", PieceType.Rectangle }, 
-                               {"PolyBezier", PieceType.PolyBezier}, 
-                               {"Polygon", PieceType.Polygon}
+                               {"Simple Bezier", PieceType.SimpleBezier}, 
+                               {"Poly Bezier", PieceType.PolyBezier}
                            };
                 }
                 return _availablePieceTypes;

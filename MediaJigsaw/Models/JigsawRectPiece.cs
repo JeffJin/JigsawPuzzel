@@ -14,8 +14,8 @@ namespace MediaJigsaw.Models
         public JigsawRectPiece(BitmapImage imageSource, int col, int row, double pieceSize)
             : base(imageSource, col, row, pieceSize)
         {
-            _origin = new Point((col * pieceSize), (double)(row * pieceSize));
-            this.Position = _origin;
+            this._origin = new Point((col * pieceSize), (double)(row * pieceSize));
+            this.Position = new Point((col * pieceSize), (double)(row * pieceSize)); ;
             base.InitShapeProperties();
         }
 

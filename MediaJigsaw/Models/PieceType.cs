@@ -9,6 +9,6 @@ namespace MediaJigsaw.Models
     {
         Rectangle,
         PolyBezier,
-        Polygon
+        SimpleBezier
     }
 }
