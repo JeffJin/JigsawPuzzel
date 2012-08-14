@@ -13,8 +13,8 @@ namespace MediaJigsaw.Helpers
         {
             var random = new Random();
             var temp = new List<KeyValuePair<int, int>>();
-            Point tempPoint;
-            foreach (JigsawPiece piece in pieces)
+            IList<IJigsawPiece> scrambledPieces = new List<IJigsawPiece>();
+            foreach (JigsawPiece originPiece in pieces)
             {
                 int row = random.Next(0, rows);
                 int col = random.Next(0, cols);
@@ -24,16 +24,21 @@ namespace MediaJigsaw.Helpers
                     row = random.Next(0, rows);
                     col = random.Next(0, cols);
                 }
-                IJigsawPiece targetPiece = pieces.Single(p => p.OriginRow == row && p.OriginColumn == col);
                 temp.Add(new KeyValuePair<int, int>(row, col));
-                piece.CurrentRow = row;
-                piece.CurrentColumn = col;
+                IJigsawPiece targetPiece = pieces.Single(p => p.OriginRow == row && p.OriginColumn == col);
 
                 //swap positions
-                tempPoint = new Point(targetPiece.Position.X, targetPiece.Position.Y);
-                targetPiece.Position = new Point(piece.Position.X, piece.Position.Y);
-                piece.Position = tempPoint;
+                var tempPoint = new Point(originPiece.Position.X, originPiece.Position.Y);
+                originPiece.Position = new Point(targetPiece.Position.X, targetPiece.Position.Y);
+                targetPiece.Position = tempPoint;
 
+                //Swap column and row numbers
+                int targetColumn = targetPiece.CurrentColumn;
+                int targetRow = targetPiece.CurrentRow;
+                targetPiece.CurrentColumn = originPiece.CurrentColumn;
+                targetPiece.CurrentRow = originPiece.CurrentRow;
+                originPiece.CurrentColumn = targetColumn;
+                originPiece.CurrentRow = targetRow;
             }
             return pieces;
         }

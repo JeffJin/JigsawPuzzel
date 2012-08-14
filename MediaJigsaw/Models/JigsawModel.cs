@@ -46,7 +46,7 @@ namespace MediaJigsaw.Models
             this.InitCommands();
             this.InitProperties();
             this.PieceSize = 200.0;
-            this.PieceType = PieceType.PolyBezier;
+            this.PieceType = PieceType.SimpleBezier;
         }
 
         //check if the pieces are in the correct position
@@ -127,7 +127,7 @@ namespace MediaJigsaw.Models
                     pieces.Add(jigsawPiece);
                 }
             }
-            this.Pieces = pieces;
+            //this.Pieces = pieces;
             this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
             foreach (JigsawPiece piece in this.Pieces)
             {
@@ -301,8 +301,12 @@ namespace MediaJigsaw.Models
             pieceView.CaptureMouse();
             pieceView.SetValue(Panel.ZIndexProperty, 100);
 
-            _mouseDownInfo = string.Format("MouseDown X = {0}, MouseDown Y = {1}, Column = {2}, Row = {3}",
-                this._mouseDownPosition.X, this._mouseDownPosition.Y, pieceView.CurrentColumn, pieceView.CurrentRow);
+            _mouseDownInfo = string.Format("MouseDown X = {0}, MouseDown Y = {1}, " +
+                                           "CurrentColumn = {2}, CurrentRow = {3}," +
+                                           " OriginColumn = {4}, OriginRow = {5}",
+                this._mouseDownPosition.X, this._mouseDownPosition.Y, 
+                pieceView.CurrentColumn, pieceView.CurrentRow,
+                pieceView.OriginColumn, pieceView.OriginRow);
             Info = _mouseDownInfo;
         }
 
@@ -333,8 +337,11 @@ namespace MediaJigsaw.Models
                 var left = piecePosition.X - _mouseDownPosition.X + pieceView.Position.X;
                 var right = piecePosition.Y - _mouseDownPosition.Y + pieceView.Position.Y;
                 
-                Info = string.Format("{0}; Mouse Move X = {1}, Mouse Move Y = {2}, Column = {3}, Row = {4}",
-                    _mouseDownInfo, left, right, pieceView.CurrentColumn, pieceView.CurrentRow);
+                Info = string.Format("{0}; Mouse Move X = {1}, Mouse Move Y = {2}, " +
+                                     "CurrnetColumn = {3}, CurrentRow = {4}, " +
+                                     "OriginColumn = {5}, OriginRow = {6}",
+                    _mouseDownInfo, left, right, pieceView.CurrentColumn, pieceView.CurrentRow, 
+                pieceView.OriginColumn, pieceView.OriginRow);
                 Canvas.SetLeft(pieceView, left);//
                 Canvas.SetTop(pieceView, right);//
             }
@@ -423,19 +430,18 @@ namespace MediaJigsaw.Models
                 base.FirePropertyChanged("AvailableSizes");
             }
         }
-        private Dictionary<string, PieceType> _availablePieceTypes;
-        public Dictionary<string, PieceType> AvailablePieceTypes
+        private Dictionary<PieceType, string> _availablePieceTypes;
+        public Dictionary<PieceType, string> AvailablePieceTypes
         {
             get
             {
                 if(_availablePieceTypes == null)
                 {
-                    _availablePieceTypes = new Dictionary<string, PieceType>();
-                    _availablePieceTypes = new Dictionary<string, PieceType>()
+                    _availablePieceTypes = new Dictionary<PieceType, string>()
                            {
-                               {"Rectangle", PieceType.Rectangle }, 
-                               {"Simple Bezier", PieceType.SimpleBezier}, 
-                               {"Poly Bezier", PieceType.PolyBezier}
+                               {PieceType.Rectangle, "Rectangle"}, 
+                               {PieceType.SimpleBezier, "Simple Bezier"}, 
+                               {PieceType.PolyBezier, "Poly Bezier"}
                            };
                 }
                 return _availablePieceTypes;
