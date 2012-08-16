@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Navigation;
 using MediaJigsaw.Helpers;
 using MediaJigsaw.Infrastructure;
 using Microsoft.Win32;
@@ -169,6 +170,7 @@ namespace MediaJigsaw.Models
             this._commands.AddCommand("ShowPictureCommand", x => this.ShowPicture());
             this._commands.AddCommand("ShowPuzzelCommand", x => this.ShowPuzzel());
             this._commands.AddCommand("ReplayPuzzelCommand", x => this.ReplayPuzzel());
+            this._commands.AddCommand("ShowVideoPuzzel", x => this.ShowVideoPuzzel());
         }
 
         private void InitProperties()
@@ -388,6 +390,18 @@ namespace MediaJigsaw.Models
                     MessageBox.Show(exc.ToString());
                 }
             }
+        }
+
+        private void ShowVideoPuzzel()
+        {
+            var window = new Window()
+                             {
+                                 Title = "Video Brush",
+                                 Content = new VideoSegment(),
+                                 Height = 800,
+                                 Width = 800
+                             };
+            window.ShowDialog();
         }
 
         private void ReplayPuzzel()

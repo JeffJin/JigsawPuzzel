@@ -26,6 +26,16 @@ namespace MediaJigsaw.Models
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected JigsawPiece(BitmapImage imageSource, int col, int row, double pieceSize)
+        {
+            this.ImageSource = imageSource;
+            this.OriginColumn = col;
+            this.OriginRow = row;
+            this.CurrentColumn = col;
+            this.CurrentRow = row;
+            this.PieceSize = (int)pieceSize;
+        }
+
         //clean up previous setup for this image piece
         public void Clear()
         {
@@ -38,17 +48,6 @@ namespace MediaJigsaw.Models
             this.CurrentColumn = -1;
             this.CurrentRow = -1;
             this.PieceSize = 0;
-        }
-
-        // Methods
-        protected JigsawPiece(BitmapImage imageSource, int col, int row, double pieceSize)
-        {
-            this.ImageSource = imageSource;
-            this.OriginColumn = col;
-            this.OriginRow = row;
-            this.CurrentColumn = col;
-            this.CurrentRow = row;
-            this.PieceSize = (int)pieceSize;
         }
 
         protected abstract Geometry CreateGeometry();

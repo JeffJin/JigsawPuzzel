@@ -64,6 +64,7 @@
                     <RowDefinition RowDefinition.Height="30" />
                     <RowDefinition RowDefinition.Height="24" />
                     <RowDefinition RowDefinition.Height="30" />
+                    <RowDefinition RowDefinition.Height="30" />
                 </Grid.RowDefinitions>
                 <TextBlock TextBlock.FontSize="12" TextBlock.Text="Piece Size" Margin="13,8,-13,22" Grid.RowSpan="2" />
                 <ComboBox Height="25" Width="80" Selector.SelectedValuePath="Key" Grid.Row="1" ItemsControl.DisplayMemberPath="Value" 
@@ -75,6 +76,16 @@
                           Selector.SelectedValue="{Binding PieceType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                           />
             </Grid>
+            <Button Name="btnVideoPuzzel" ButtonBase.Command="{Binding Commands.ShowVideoPuzzel}">Bezier Curves</Button>
+<!--            <Button Height="100" Width="100">-->
+<!--                <Button.Background>-->
+<!--                    <VisualBrush>-->
+<!--                        <VisualBrush.Visual>-->
+<!--                            <MediaElement Source="C:\Code\JigsawPuzzel\MediaJigsaw\Images\Sample.wmv" LoadedBehavior="Play"></MediaElement>-->
+<!--                        </VisualBrush.Visual>-->
+<!--                    </VisualBrush>-->
+<!--                </Button.Background>-->
+<!--            </Button>-->
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="1">
             <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Bottom" UIElement.Visibility="{Binding ShowPuzzelCanvas}">
