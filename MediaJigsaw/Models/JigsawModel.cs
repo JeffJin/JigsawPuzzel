@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using System.Windows.Navigation;
 using MediaJigsaw.Helpers;
 using MediaJigsaw.Infrastructure;
+using MediaJigsaw.Models.Pieces;
 using Microsoft.Win32;
 
 namespace MediaJigsaw.Models
@@ -25,6 +26,7 @@ namespace MediaJigsaw.Models
         private bool _enableReplayPuzzelButton;
         private bool _enableShowImageButton;
         private BitmapImage _imageSource;
+        private MediaElement _videoSource;
         private string _info;
         private bool _isDragging;
         private double _leftLimit;
@@ -53,7 +55,7 @@ namespace MediaJigsaw.Models
         //check if the pieces are in the correct position
         private bool CheckPieces()
         {
-            foreach (JigsawPiece jigsawPiece in this.Pieces)
+            foreach (IJigsawPiece jigsawPiece in this.Pieces)
             {
                 if ((jigsawPiece.CurrentRow != jigsawPiece.OriginRow) ||
                     (jigsawPiece.CurrentColumn != jigsawPiece.OriginColumn))
@@ -82,7 +84,7 @@ namespace MediaJigsaw.Models
         {
             for (var i = this.Window.Canvas.Children.Count - 1; i >= 0; i--)
             {
-                var p = this.Window.Canvas.Children[i] as JigsawPiece;
+                var p = this.Window.Canvas.Children[i] as JigsawPieceBase;
                 if (p != null)
                 {
                     p.MouseDown -= new MouseButtonEventHandler(this.Piece_MouseDown);
@@ -104,45 +106,58 @@ namespace MediaJigsaw.Models
             this.ImageSource = null;
         }
 
-        public IList<IJigsawPiece> CreatePuzzle(Stream streamSource)
+        private void InitImagePuzzles(Stream streamSource)
         {
-            using (var wrapper = new WrappingStream(streamSource))
-            {
-                using (var reader = new BinaryReader(wrapper))
-                {
-                    var imageSource = new BitmapImage();
-                    imageSource.BeginInit();
-                    imageSource.CacheOption = BitmapCacheOption.OnLoad;
-                    imageSource.StreamSource = reader.BaseStream;
-                    imageSource.EndInit();
-                    imageSource.Freeze();
-                    this.ImageSource = imageSource;
-                }
-            }
-            var pieces = new List<IJigsawPiece>();
-            for (int row = 0; row < this._rows; row++)
-            {
-                for (int col = 0; col < this._columns; col++)
-                {
-                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(this.ImageSource, col, row, this.PieceSize, this.PieceType);
-                    pieces.Add(jigsawPiece);
-                }
-            }
-            //this.Pieces = pieces;
+            //create imedia source from the stream
+            this.ImageSource = JigsawHelper.CreateImageSource(streamSource);
+
+            //create image pieces
+            IList<IJigsawPiece> pieces = JigsawPieceFactory.CreateImagePuzzelPieces(this.ImageSource, this._columns, 
+                this._rows, this.PieceSize, this.PieceType);
+
+            //scramble the pieces
             this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
-            foreach (JigsawPiece piece in this.Pieces)
+
+            //insert into canvas
+            foreach (JigsawPieceBase piece in this.Pieces)
             {
                 this.InsertPiece(this.Window.Canvas, piece);
             }
-            return this.Pieces;
+        }
+
+        private void InitVideoPuzzles(Stream streamSource)
+        {
+            //create imedia source from the stream
+            this.VideoSource = JigsawHelper.CreateVideoSource(streamSource);
+
+            //create image pieces
+            IList<IJigsawPiece> pieces = JigsawPieceFactory.CreateVideoPuzzelPieces(this.VideoSource, this._columns, 
+                this._rows, this.PieceSize, this.PieceType);
+
+            //scramble the pieces
+            this.Pieces = JigsawHelper.ScramblePieces(pieces, this._rows, this._columns);
+
+            //insert into canvas
+            foreach (JigsawPieceBase piece in this.Pieces)
+            {
+                this.InsertPiece(this.Window.Canvas, piece);
+            }
         }
 
         private IList<IJigsawPiece> CreateJigsawPieces(string streamFileName)
         {
-            using (Stream streamSource = this.LoadImage(streamFileName))
+            using (Stream streamSource = this.LoadStream(streamFileName))
             {
-                this.Pieces = this.CreatePuzzle(streamSource);
+                if (streamFileName.EndsWith("wmv") || streamFileName.EndsWith("mp4"))
+                {
+                    this.InitVideoPuzzles(streamSource);
+                }
+                else
+                {
+                    this.InitImagePuzzles(streamSource);
+                }
             }
+
             this.EnableShowImageButton = true;
             this.EnableReplayPuzzelButton = true;
             return this.Pieces;
@@ -190,7 +205,7 @@ namespace MediaJigsaw.Models
                                                             };
         }
 
-        private void InsertPiece(Canvas canvas, JigsawPiece piece)
+        private void InsertPiece(Canvas canvas,  JigsawPieceBase piece)
         {
             canvas.Children.Add(piece);
             Canvas.SetLeft(piece, piece.Position.X);
@@ -200,56 +215,75 @@ namespace MediaJigsaw.Models
             piece.MouseUp += new MouseButtonEventHandler(this.Piece_MouseUp);
         }
 
+        //Load image stream
         private Stream LoadImage(string srcFileName)
         {
-            this.SourceFileName = srcFileName;
-            this._columns = (int) Math.Ceiling((double) (((double) this.SupportedImageHeight)/this.PieceSize));
-            this._rows = (int) Math.Ceiling((double) (((double) this.SupportedImageHeight)/this.PieceSize));
+            this._columns = (int)Math.Ceiling((double)(((double)this.SupportedImageHeight) / this.PieceSize));
+            this._rows = (int)Math.Ceiling((double)(((double)this.SupportedImageHeight) / this.PieceSize));
             var bi = new BitmapImage(new Uri(srcFileName));
 
             var imgBrush = new ImageBrush(bi)
-                                      {
-                                          AlignmentX = AlignmentX.Left,
-                                          AlignmentY = AlignmentY.Top,
-                                          Stretch = Stretch.UniformToFill
-                                      };
+            {
+                AlignmentX = AlignmentX.Left,
+                AlignmentY = AlignmentY.Top,
+                Stretch = Stretch.UniformToFill
+            };
 
             var rectBlank = new Rectangle
-                                      {
-                                          Width = this._columns*this.PieceSize,
-                                          Height = this._rows*this.PieceSize,
-                                          HorizontalAlignment = HorizontalAlignment.Left,
-                                          VerticalAlignment = VerticalAlignment.Top,
-                                          Fill = new SolidColorBrush(Colors.White)
-                                      };
-            rectBlank.Arrange(new Rect(0.0, 0.0, this._columns*this.PieceSize, this._rows*this.PieceSize));
+            {
+                Width = this._columns * this.PieceSize,
+                Height = this._rows * this.PieceSize,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Fill = new SolidColorBrush(Colors.White)
+            };
+            rectBlank.Arrange(new Rect(0.0, 0.0, this._columns * this.PieceSize, this._rows * this.PieceSize));
             var rectImage = new Rectangle
-                                      {
-                                          Width = this.SupportedImageWidth,
-                                          Height = this.SupportedImageHeight,
-                                          HorizontalAlignment = HorizontalAlignment.Left,
-                                          VerticalAlignment = VerticalAlignment.Top,
-                                          Fill = imgBrush
-                                      };
-            rectImage.Arrange(new Rect(((this._columns*this.PieceSize) - this.SupportedImageWidth)/2.0,
-                                       ((this._rows*this.PieceSize) - this.SupportedImageHeight)/2.0,
-                                       (double) this.SupportedImageWidth, (double) this.SupportedImageHeight));
-            rectImage.Margin = new Thickness(((this._columns*this.PieceSize) - this.SupportedImageWidth)/2.0,
-                                             ((this._rows*this.PieceSize) - this.SupportedImageHeight)/2.0,
-                                             ((this._rows*this.PieceSize) - this.SupportedImageHeight)/2.0,
-                                             ((this._columns*this.PieceSize) - this.SupportedImageWidth)/2.0);
-            var rtb = new RenderTargetBitmap((this._columns + 1)*((int) this.PieceSize),
-                                                            (this._rows + 1)*((int) this.PieceSize), bi.DpiX, bi.DpiY,
+            {
+                Width = this.SupportedImageWidth,
+                Height = this.SupportedImageHeight,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Fill = imgBrush
+            };
+            rectImage.Arrange(new Rect(((this._columns * this.PieceSize) - this.SupportedImageWidth) / 2.0,
+                                       ((this._rows * this.PieceSize) - this.SupportedImageHeight) / 2.0,
+                                       (double)this.SupportedImageWidth, (double)this.SupportedImageHeight));
+            rectImage.Margin = new Thickness(((this._columns * this.PieceSize) - this.SupportedImageWidth) / 2.0,
+                                             ((this._rows * this.PieceSize) - this.SupportedImageHeight) / 2.0,
+                                             ((this._rows * this.PieceSize) - this.SupportedImageHeight) / 2.0,
+                                             ((this._columns * this.PieceSize) - this.SupportedImageWidth) / 2.0);
+            var rtb = new RenderTargetBitmap((this._columns + 1) * ((int)this.PieceSize),
+                                                            (this._rows + 1) * ((int)this.PieceSize), bi.DpiX, bi.DpiY,
                                                             PixelFormats.Pbgra32);
             rtb.Render(rectBlank);
             rtb.Render(rectImage);
             var png = new PngBitmapEncoder
-                                       {
-                                           Frames = {BitmapFrame.Create(rtb)}
-                                       };
+            {
+                Frames = { BitmapFrame.Create(rtb) }
+            };
             Stream ret = new MemoryStream();
             png.Save(ret);
             return ret;
+        }
+
+        private Stream LoadVideo(string srcFileName)
+        {
+            return new FileStream(srcFileName, FileMode.Open, FileAccess.Read);
+        }
+
+        private Stream LoadStream(string srcFileName)
+        {
+            this.SourceFileName = srcFileName;
+            //Need to refactor with strategy pattern
+            if(srcFileName.EndsWith("wmv") || srcFileName.EndsWith("mp4"))
+            {
+                return LoadVideo(srcFileName);
+            }
+            else
+            {
+                return LoadImage(srcFileName);
+            }
         }
 
 #region Mouse event handler 
@@ -323,7 +357,7 @@ namespace MediaJigsaw.Models
             double absMouseYpos = e.GetPosition(this.Window.Canvas).Y;
             Info = string.Format("{0};  Mouse X = {1}, Mouse Y = {2}", _mouseDownInfo, absMouseXpos, absMouseYpos);
 
-            JigsawPiece pieceView = (JigsawPiece) sender;
+            var pieceView = (JigsawPieceBase) sender;
             if (!this._isDragging)
             {
                 if (((absMouseXpos > (this._leftLimit - 50.0)) && (absMouseXpos < (this._rightLimit + 50.0))) &&
@@ -354,7 +388,7 @@ namespace MediaJigsaw.Models
             if (this._isDragging)
             {
                 this._isDragging = false;
-                JigsawPiece pieceView = (JigsawPiece)sender;
+                var pieceView = (JigsawPieceBase)sender;
                 pieceView.ReleaseMouseCapture();
                 pieceView.SetValue(Panel.ZIndexProperty, 10);
                 IJigsawPiece originalModel = this.FindPieceByView(pieceView);
@@ -397,7 +431,7 @@ namespace MediaJigsaw.Models
             var window = new Window()
                              {
                                  Title = "Video Brush",
-                                 Content = new VideoSegment(),
+                                 Content = new VideoPanel(),
                                  Height = 800,
                                  Width = 800
                              };
@@ -484,6 +518,16 @@ namespace MediaJigsaw.Models
             {
                 this._enableShowImageButton = value;
                 base.FirePropertyChanged("EnableShowImageButton");
+            }
+        }
+
+        public MediaElement VideoSource
+        {
+            get { return this._videoSource; }
+            set
+            {
+                this._videoSource = value;
+                base.FirePropertyChanged("VideoSource");
             }
         }
 

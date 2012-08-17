@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <VisualBrush x:Key="videoResource" Viewbox="0,0,600,600" Viewport="0,0,600,600">
             <VisualBrush.Visual>
-                <MediaElement Source="C:\Code\JigsawPuzzel\MediaJigsaw\Images\Sample.wmv"
+                <MediaElement Source="C:\Code\JigsawPuzzel\MediaJigsaw\Images\Sample.mp4"
                                 Opacity="0.5" LoadedBehavior="Play"/>
             </VisualBrush.Visual>
         </VisualBrush>

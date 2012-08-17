@@ -11,7 +11,7 @@
             <Button.Background>
                 <VisualBrush>
                     <VisualBrush.Visual>
-                        <MediaElement Source="C:\Code\JigsawPuzzel\MediaJigsaw\Images\Sample.wmv" LoadedBehavior="Play"></MediaElement>
+                        <MediaElement Source="C:\Code\JigsawPuzzel\MediaJigsaw\Images\Sample.mp4" LoadedBehavior="Play"></MediaElement>
                     </VisualBrush.Visual>
                 </VisualBrush>
             </Button.Background>

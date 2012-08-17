@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using MediaJigsaw.Infrastructure;
 using MediaJigsaw.Models;
+using MediaJigsaw.Models.Pieces;
 
 namespace MediaJigsaw.Helpers
 {
     public class JigsawHelper
     {
-        public static IList<IJigsawPiece> ScramblePieces(List<IJigsawPiece> pieces, int rows, int cols)
+        public static IList<IJigsawPiece> ScramblePieces(IList<IJigsawPiece> pieces, int rows, int cols)
         {
             var random = new Random();
             var temp = new List<KeyValuePair<int, int>>();
-            IList<IJigsawPiece> scrambledPieces = new List<IJigsawPiece>();
-            foreach (JigsawPiece originPiece in pieces)
+            foreach (JigsawPieceBase originPiece in pieces)
             {
                 int row = random.Next(0, rows);
                 int col = random.Next(0, cols);
@@ -41,6 +45,28 @@ namespace MediaJigsaw.Helpers
                 originPiece.CurrentRow = targetRow;
             }
             return pieces;
+        }
+
+        public static BitmapImage CreateImageSource(Stream stream)
+        {
+            using (var wrapper = new WrappingStream(stream))
+            {
+                using (var reader = new BinaryReader(wrapper))
+                {
+                    var imageSource = new BitmapImage();
+                    imageSource.BeginInit();
+                    imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                    imageSource.StreamSource = reader.BaseStream;
+                    imageSource.EndInit();
+                    imageSource.Freeze();
+                    return imageSource;
+                }
+            }
+        }
+
+        public static MediaElement CreateVideoSource(Stream streamSource)
+        {
+            return null;
         }
     }
 }

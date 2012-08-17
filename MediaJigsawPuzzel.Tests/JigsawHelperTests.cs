@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MediaJigsaw.Helpers;
 using MediaJigsaw.Models;
+using MediaJigsaw.Models.Pieces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediaJigsaw.Tests
@@ -22,7 +23,7 @@ namespace MediaJigsaw.Tests
             {
                 for (int col = 0; col < columns; col++)
                 {
-                    IJigsawPiece jigsawPiece = JigsawPieceFactory.Create(imaeSource, col, row, 200, PieceType.SimpleBezier);
+                    IJigsawPiece jigsawPiece = JigsawPieceFactory.CreateImagePuzzelPiece(imaeSource, col, row, 200, PieceType.SimpleBezier);
                     pieces.Add(jigsawPiece);
                 }
             }
