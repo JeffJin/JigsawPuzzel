@@ -39,7 +39,6 @@ namespace MediaJigsaw.Models
         private Visibility _showPictureButton;
         private Visibility _showPuzzelButton;
         private Visibility _showPuzzelCanvas;
-        private string _sourceFileName;
         private double _upperLimit;
         public readonly int SupportedImageHeight = 800;
         public readonly int SupportedImageWidth = 800;
@@ -468,6 +467,8 @@ namespace MediaJigsaw.Models
 #endregion 
 
 #region Properties to bind to UI
+        
+        public string SourceFileName { get; set; }
 
         public Dictionary<double, string> AvailableSizes
         {
@@ -609,12 +610,6 @@ namespace MediaJigsaw.Models
                 this._showPuzzelCanvas = value;
                 base.FirePropertyChanged("ShowPuzzelCanvas");
             }
-        }
-
-        public string SourceFileName
-        {
-            get { return this._sourceFileName; }
-            set { this._sourceFileName = value; }
         }
 
         private PieceType _pieceType;

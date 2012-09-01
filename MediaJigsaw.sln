@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaJigsaw.Model", "MediaJigsaw.Model\MediaJigsaw.Model.csproj", "{29E688E5-C305-43A4-A491-E13308F6ED7A}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MediaJigsaw.vsmdi
@@ -45,6 +47,16 @@ Global
 		{31B9A846-B8E6-4059-BDAD-137DDC578F96}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{31B9A846-B8E6-4059-BDAD-137DDC578F96}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{31B9A846-B8E6-4059-BDAD-137DDC578F96}.Release|x86.ActiveCfg = Release|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{29E688E5-C305-43A4-A491-E13308F6ED7A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
